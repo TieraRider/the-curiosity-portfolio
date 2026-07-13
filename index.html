@@ -235,6 +235,7 @@ window.tailwind.config = {
         <a class="nav-link" href="#demo-path">Demo Path</a>
         <a class="nav-link" href="#executive-summary">Executive Summary</a>
         <a class="nav-link" href="#journey-changed">Journey Changed</a>
+        <a class="nav-link" href="#founder-assets">Founder Assets</a>
         <a class="nav-link" href="#slide-outline">Slide Outline</a>
       </div>
     </div>
@@ -660,6 +661,40 @@ window.tailwind.config = {
     </section>
 
     <!-- 13 -->
+
+    <!-- FOUNDER ASSETS -->
+    <section id="founder-assets" class="py-16 border-b section-divider">
+      <p class="text-xs tracking-widest uppercase brand-gold mb-4">Founder Assets</p>
+      <h2 class="text-3xl font-bold text-white mb-4">Founder Asset Package</h2>
+      <p class="text-gray-400 max-w-2xl leading-relaxed mb-8">Founder Asset Package v1.0 contains the approved public-facing founder, product, and pitch assets for Built From Curiosity and CompTIA Quest.</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl">
+        <a href="/founder-assets/founder_one_sheet_v1.md"
+           class="card-dark rounded-xl p-5 group block hover:border-yellow-700 border border-transparent transition-colors"
+           target="_blank" rel="noopener noreferrer">
+          <p class="text-xs uppercase tracking-widest text-gray-500 mb-3">Document 1</p>
+          <p class="text-white font-semibold mb-2 group-hover:text-yellow-400 transition-colors">Founder One-Sheet</p>
+          <p class="text-gray-400 text-sm leading-relaxed">One-page founder summary: identity, what was built, what has been proven, and what she is looking for.</p>
+          <p class="brand-gold text-xs mt-3">View → </p>
+        </a>
+        <a href="/founder-assets/comptia_quest_product_case_study_v1.md"
+           class="card-dark rounded-xl p-5 group block hover:border-yellow-700 border border-transparent transition-colors"
+           target="_blank" rel="noopener noreferrer">
+          <p class="text-xs uppercase tracking-widest text-gray-500 mb-3">Document 2</p>
+          <p class="text-white font-semibold mb-2 group-hover:text-yellow-400 transition-colors">Product Case Study</p>
+          <p class="text-gray-400 text-sm leading-relaxed">How CompTIA Quest turned certification prep into a game-based learning experience.</p>
+          <p class="brand-gold text-xs mt-3">View → </p>
+        </a>
+        <a href="/founder-assets/pitch_deck_outline_v1.md"
+           class="card-dark rounded-xl p-5 group block hover:border-yellow-700 border border-transparent transition-colors"
+           target="_blank" rel="noopener noreferrer">
+          <p class="text-xs uppercase tracking-widest text-gray-500 mb-3">Document 3</p>
+          <p class="text-white font-semibold mb-2 group-hover:text-yellow-400 transition-colors">Pitch Deck Outline</p>
+          <p class="text-gray-400 text-sm leading-relaxed">10-slide pitch deck outline for workforce development partnerships and program administrators.</p>
+          <p class="brand-gold text-xs mt-3">View → </p>
+        </a>
+      </div>
+    </section>
+
     <section id="slide-outline" class="py-16 border-b section-divider">
       <p class="text-xs tracking-widest uppercase brand-gold mb-4">13 — Slide Deck Outline</p>
       <h2 class="text-3xl font-bold text-white mb-10">12-Slide Presentation Structure</h2>
@@ -680,7 +715,7 @@ window.tailwind.config = {
     </section>
 
     <!-- CLOSING -->
-    <section class="py-20 text-center">
+    <section id="closing-section" class="py-20 text-center">
       <p class="text-gray-500 text-sm uppercase tracking-widest mb-8">Built From Curiosity</p>
       <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 leading-snug max-w-2xl mx-auto">Built From Curiosity began as the name behind one app.</h2>
       <p class="text-gray-400 text-lg max-w-xl mx-auto mb-4">It has evolved into an operating system for building products, organizations, and founders.</p>
@@ -1067,7 +1102,7 @@ window.tailwind.config = {
     };
 
     const createFooterLinks = () => {
-      const footerLine = document.querySelector("section.py-20.text-center .mt-16");
+      const footerLine = document.querySelector("#closing-section .mt-16");
       if (!footerLine || footerLine.querySelector(".official-footer-links")) return;
 
       const links = document.createElement("p");
