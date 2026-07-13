@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Founder One-Sheet - Tiera Rider</title>
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --card-bg: #111111;
+            --border-color: #222222;
+            --accent-color: #c9a84c;
+            --accent-hover: #e0be60;
+            --text-main: #e5e5e5;
+            --text-muted: #a3a3a3;
+            --text-white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            padding: 2rem 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            margin-bottom: 2.5rem;
+        }
+
+        .back-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        /* Header Block */
+        .header {
+            margin-bottom: 3rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 2rem;
+        }
+
+        .header-tag {
+            color: var(--accent-color);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .header-title {
+            color: var(--text-white);
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .header-meta {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* Content Sections / Cards */
+        .section-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            color: var(--text-white);
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--accent-color);
+            padding-left: 0.75rem;
+            line-height: 1.3;
+        }
+
+        .section-text {
+            color: var(--text-main);
+            font-size: 1rem;
+        }
+
+        .quote-text {
+            font-style: italic;
+            position: relative;
+            padding-left: 1.5rem;
+            border-left: 2px solid var(--border-color);
+            margin-bottom: 1rem;
+            color: var(--text-white);
+        }
+
+        /* Two-column grid for Section 4 */
+        .tag-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 640px) {
+            .tag-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .tag-column-title {
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+        }
+
+        .tag-column-title.completed {
+            color: var(--accent-color);
+        }
+
+        .tag-column-title.in-progress {
+            color: #5ab0ff;
+        }
+
+        .tag-column-title.planned {
+            color: #b3b3b3;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            list-style: none;
+        }
+
+        .tag-item {
+            background-color: #1a1a1a;
+            border: 1px solid var(--border-color);
+            padding: 0.35rem 0.75rem;
+            border-radius: 2rem;
+            font-size: 0.8125rem;
+            color: var(--text-main);
+        }
+
+        /* Bullet lists */
+        .bullet-list {
+            list-style: none;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        .bullet-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .bullet-list li::before {
+            content: "•";
+            color: var(--accent-color);
+            position: absolute;
+            left: 0;
+            font-size: 1.25rem;
+            line-height: 1;
+            top: 0.1rem;
+        }
+
+        /* Styled Links Row */
+        .links-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #1a1a1a;
+            border: 1px solid var(--border-color);
+            color: var(--text-white);
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            flex: 1;
+            min-width: 180px;
+            text-align: center;
+        }
+
+        .btn-link:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            background-color: #1e1b13;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 4rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 2rem;
+            text-align: center;
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.8125rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .source-link {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .source-link:hover {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <a href="https://the-curiosity-portfolio.netlify.app" class="back-link">← Back to Portfolio</a>
+    </div>
+
+    <!-- Header Block -->
+    <header class="header">
+        <span class="header-tag">Built From Curiosity Founder Asset Package v1.0</span>
+        <h1 class="header-title">FOUNDER ONE-SHEET</h1>
+        <p class="header-meta">Approved by Founder &middot; July 2026</p>
+    </header>
+
+    <!-- Section 1 — Founder Identity -->
+    <section class="section-card">
+        <h2 class="section-title">Founder Identity</h2>
+        <p class="section-text">
+            I am the solo founder of Built From Curiosity, a learning company dedicated to redefining how technical knowledge is acquired and mastered. Driven by relentless curiosity and hands-on execution, I combine advanced technical training with modern AI-enabled development. I don't just study systems — I build them, bridge them, and optimize them to help others unlock their potential.
+        </p>
+    </section>
+
+    <!-- Section 2 — What She Built -->
+    <section class="section-card">
+        <h2 class="section-title">What She Built</h2>
+        <p class="section-text">
+            I founded Built From Curiosity as the company, philosophy, and operating system behind transformative technical education. CompTIA Quest is its first product — a gamified, scenario-based iOS application designed to make CompTIA A+ certification prep active rather than passive. Developed using Base44, Codex, GitHub, and AI orchestration, the app translates dense technical curriculum into immersive, playable challenges.
+        </p>
+    </section>
+
+    <!-- Section 3 — Why She Built It -->
+    <section class="section-card">
+        <h2 class="section-title">Why She Built It</h2>
+        <div class="section-text">
+            <p class="quote-text">"I didn't start CompTIA Quest because I wanted to build an app. I built it because I kept thinking there had to be a better way."</p>
+            <p>Traditional certification prep is often dry, static, and disconnected from the real-world scenarios technicians actually face. I built this platform to prove that technical skills can be cultivated through immersive play — transforming passive studying into an active pursuit of capability.</p>
+        </div>
+    </section>
+
+    <!-- Section 4 — What Exists Today -->
+    <section class="section-card">
+        <h2 class="section-title">What Exists Today</h2>
+        <div class="tag-grid">
+            <div>
+                <h3 class="tag-column-title completed">Completed</h3>
+                <ul class="tag-list">
+                    <li class="tag-item">Live on iOS App Store</li>
+                    <li class="tag-item">Guest-first First Run lesson path (Lessons 1 & 2)</li>
+                    <li class="tag-item">Laptop Components</li>
+                    <li class="tag-item">Desktop Components</li>
+                    <li class="tag-item">Built From Curiosity Operating Model v1.0</li>
+                    <li class="tag-item">10 Product Constitution principles across 4 categories</li>
+                    <li class="tag-item">Phase 1 Product Recovery & Stabilization</li>
+                </ul>
+            </div>
+            <div>
+                <div style="margin-bottom: 1.5rem;">
+                    <h3 class="tag-column-title in-progress">In Progress</h3>
+                    <ul class="tag-list">
+                        <li class="tag-item">Sign-in inside First Run</li>
+                        <li class="tag-item">Native auth return</li>
+                        <li class="tag-item">Guest-to-auth progress handoff</li>
+                        <li class="tag-item">Campus and multiplayer systems</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="tag-column-title planned">Planned</h3>
+                    <ul class="tag-list">
+                        <li class="tag-item">Boss Battle / Technician Challenge</li>
+                        <li class="tag-item">Full question bank audit</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5 — What Has Been Proven -->
+    <section class="section-card">
+        <h2 class="section-title">What Has Been Proven</h2>
+        <ul class="bullet-list">
+            <li>Completed the 15-week Per Scholas AI-Enabled IT Support program in 10 weeks while building CompTIA Quest</li>
+            <li>Entered the MAT² Mechatronics Apprenticeship through Henry Ford College in 2024</li>
+            <li>Built and shipped a production iOS app as a solo founder</li>
+            <li>Diagnosed, navigated, and resolved a destabilization event through structured Product Recovery & Stabilization</li>
+            <li>Built a repeatable Recovery Engineer process from that experience</li>
+            <li>Established Built From Curiosity Operating Model v1.0 as the structural framework for future products and scaling</li>
+        </ul>
+    </section>
+
+    <!-- Section 6 — What She Is Looking For -->
+    <section class="section-card">
+        <h2 class="section-title">What She Is Looking For</h2>
+        <ul class="bullet-list">
+            <li>Workforce partnerships with technical training programs</li>
+            <li>Pilot conversations with learning organizations, classrooms, and IT bootcamps</li>
+            <li>Connections with educators and workforce development leaders</li>
+        </ul>
+    </section>
+
+    <!-- Section 7 — Links -->
+    <section class="section-card">
+        <h2 class="section-title">Links</h2>
+        <div class="links-row">
+            <a href="https://the-curiosity-portfolio.netlify.app" class="btn-link" target="_blank" rel="noopener noreferrer">Founder Portfolio</a>
+            <a href="https://apps.apple.com/us/app/comptia-quest/id6762166430" class="btn-link" target="_blank" rel="noopener noreferrer">App Store</a>
+            <a href="https://comptiaquest.com" class="btn-link" target="_blank" rel="noopener noreferrer">Website</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">Built From Curiosity &middot; Tiera Rider &middot; 2026</p>
+        <p><a href="./founder_one_sheet_v1.md" class="source-link">View source markdown</a></p>
+    </footer>
+
+</body>
+</html>
