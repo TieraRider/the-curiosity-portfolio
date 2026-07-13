@@ -885,6 +885,210 @@ window.tailwind.config = {
       document.getElementById('print-page').addEventListener('click', () => window.print());
     })();
   </script>
+  <!-- CompTIA Quest Official Links Enhancement -->
+<style>
+  .official-link-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .official-link-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    padding: 0.8rem 1.1rem;
+    font-size: 0.86rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 160ms ease, background 160ms ease, border-color 160ms ease, color 160ms ease;
+  }
+
+  .official-link-button:hover {
+    transform: translateY(-1px);
+  }
+
+  .official-link-primary {
+    background: #c9a84c;
+    color: #0a0a0a;
+    border: 1px solid #c9a84c;
+  }
+
+  .official-link-primary:hover,
+  .official-link-primary:focus-visible {
+    background: #e2c66c;
+    border-color: #e2c66c;
+    color: #0a0a0a;
+  }
+
+  .official-link-secondary {
+    background: transparent;
+    color: #f5e6b5;
+    border: 1px solid #5a4820;
+  }
+
+  .official-link-secondary:hover,
+  .official-link-secondary:focus-visible {
+    background: #17140d;
+    border-color: #c9a84c;
+    color: #f5e6b5;
+  }
+
+  .official-live-card {
+    margin-top: 1.25rem;
+  }
+
+  .official-live-card a,
+  .official-footer-links a,
+  .official-summary-links a {
+    color: #f5e6b5;
+    text-decoration: none;
+  }
+
+  .official-live-card a:hover,
+  .official-live-card a:focus-visible,
+  .official-footer-links a:hover,
+  .official-footer-links a:focus-visible,
+  .official-summary-links a:hover,
+  .official-summary-links a:focus-visible {
+    color: #c9a84c;
+    text-decoration: underline;
+  }
+
+  @media print {
+    .official-link-row {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  (() => {
+    const APP_STORE_URL = "https://apps.apple.com/us/app/comptia-quest/id6762166430";
+    const WEBSITE_URL = "https://comptiaquest.com";
+
+    const externalLinkAttrs = `
+      target="_blank"
+      rel="noopener noreferrer"
+    `;
+
+    const createHeroButtons = () => {
+      const hero = document.getElementById("top");
+      if (!hero || hero.querySelector(".official-link-row")) return;
+
+      const wrapper = document.createElement("div");
+      wrapper.className = "official-link-row";
+      wrapper.setAttribute("aria-label", "CompTIA Quest official links");
+
+      wrapper.innerHTML = `
+        <a
+          class="official-link-button official-link-primary"
+          href="${APP_STORE_URL}"
+          ${externalLinkAttrs}
+          aria-label="View CompTIA Quest on the App Store"
+        >
+          View on the App Store
+        </a>
+
+        <a
+          class="official-link-button official-link-secondary"
+          href="${WEBSITE_URL}"
+          ${externalLinkAttrs}
+          aria-label="Visit the official CompTIA Quest website"
+        >
+          Visit CompTIA Quest Website
+        </a>
+      `;
+
+      hero.appendChild(wrapper);
+    };
+
+    const createCompTIAQuestLiveLinks = () => {
+      const section = document.getElementById("comptia-quest");
+      if (!section || section.querySelector(".official-live-card")) return;
+
+      const featureColumn = section.querySelector(".space-y-3");
+      if (!featureColumn) return;
+
+      const card = document.createElement("div");
+      card.className = "card-dark rounded-xl p-5 official-live-card";
+
+      card.innerHTML = `
+        <p class="text-xs uppercase tracking-widest text-gray-500 mb-3">Live Links</p>
+
+        <div class="space-y-2 text-sm">
+          <p>
+            <a href="${APP_STORE_URL}" ${externalLinkAttrs}>
+              View CompTIA Quest on the App Store →
+            </a>
+          </p>
+
+          <p>
+            <a href="${WEBSITE_URL}" ${externalLinkAttrs}>
+              Visit the official CompTIA Quest website →
+            </a>
+          </p>
+        </div>
+      `;
+
+      featureColumn.appendChild(card);
+    };
+
+    const createExecutiveSummaryLinks = () => {
+      const section = document.getElementById("executive-summary");
+      if (!section || section.querySelector(".official-summary-links")) return;
+
+      const summaryCard = section.querySelector(".card-dark.rounded-2xl");
+      const quoteBlock = summaryCard?.querySelector(".border-t");
+      if (!summaryCard || !quoteBlock) return;
+
+      const liveProductBlock = document.createElement("div");
+      liveProductBlock.className = "border-t border-gray-800 pt-5 official-summary-links";
+
+      liveProductBlock.innerHTML = `
+        <p class="text-xs uppercase tracking-widest text-gray-500 mb-2">Live Product</p>
+        <p class="text-gray-300 leading-relaxed">
+          <a href="${APP_STORE_URL}" ${externalLinkAttrs}>App Store</a>
+          <span class="text-gray-600 mx-2">·</span>
+          <a href="${WEBSITE_URL}" ${externalLinkAttrs}>Official Website</a>
+        </p>
+      `;
+
+      summaryCard.insertBefore(liveProductBlock, quoteBlock);
+    };
+
+    const createFooterLinks = () => {
+      const footerLine = document.querySelector("section.py-20.text-center .mt-16");
+      if (!footerLine || footerLine.querySelector(".official-footer-links")) return;
+
+      const links = document.createElement("p");
+      links.className = "official-footer-links mt-3";
+
+      links.innerHTML = `
+        <a href="${APP_STORE_URL}" ${externalLinkAttrs}>App Store</a>
+        <span class="mx-2">·</span>
+        <a href="${WEBSITE_URL}" ${externalLinkAttrs}>CompTIA Quest Website</a>
+      `;
+
+      footerLine.appendChild(links);
+    };
+
+    const addOfficialLinks = () => {
+      createHeroButtons();
+      createCompTIAQuestLiveLinks();
+      createExecutiveSummaryLinks();
+      createFooterLinks();
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", addOfficialLinks);
+    } else {
+      addOfficialLinks();
+    }
+  })();
+</script>
 </body>
 </html>
 <script id="__base44_dark_class_post__">document.documentElement.classList.add('dark');</script></body></html>
