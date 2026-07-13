@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pitch Deck Outline — CompTIA Quest & Built From Curiosity</title>
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --card-bg: #111111;
+            --card-border: #222222;
+            --accent-gold: #c9a84c;
+            --text-light: #e5e5e5;
+            --text-muted: #a3a3a3;
+            --text-white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            padding: 2rem 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            margin-bottom: 2.5rem;
+        }
+
+        .back-link {
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            transition: opacity 0.2s ease;
+        }
+
+        .back-link:hover {
+            opacity: 0.85;
+            text-decoration: underline;
+        }
+
+        /* Header */
+        header {
+            margin-bottom: 3.5rem;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 2rem;
+        }
+
+        .header-label {
+            color: var(--accent-gold);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        h1 {
+            color: var(--text-white);
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.75rem;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .meta-info {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Deck / Cards container */
+        .deck-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        /* Slide Card */
+        .slide-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 0.75rem; /* rounded-xl alternative */
+            padding: 2rem;
+            position: relative;
+            transition: border-color 0.2s ease;
+        }
+
+        .slide-card:hover {
+            border-color: #333;
+        }
+
+        .slide-badge {
+            background-color: rgba(201, 168, 76, 0.1);
+            color: var(--accent-gold);
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            display: inline-block;
+            margin-bottom: 1.25rem;
+        }
+
+        .slide-headline {
+            color: var(--text-white);
+            font-size: 1.35rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 1.25rem;
+        }
+
+        .slide-bullets {
+            list-style-type: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .slide-bullets li {
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.95rem;
+        }
+
+        .slide-bullets li::before {
+            content: "•";
+            color: var(--accent-gold);
+            position: absolute;
+            left: 0.25rem;
+            font-weight: bold;
+        }
+
+        .speaker-note {
+            background-color: rgba(255, 255, 255, 0.02);
+            border-left: 3px solid var(--accent-gold);
+            padding: 0.75rem 1rem;
+            margin-top: 1.5rem;
+            font-style: italic;
+            color: #d1d1d1;
+            font-size: 0.9rem;
+            border-radius: 0 0.375rem 0.375rem 0;
+        }
+
+        .speaker-label {
+            font-style: normal;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--accent-gold);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Links on card content */
+        .slide-bullets a {
+            color: var(--accent-gold);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--accent-gold);
+            transition: opacity 0.2s;
+        }
+
+        .slide-bullets a:hover {
+            opacity: 0.8;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--card-border);
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .footer-brand {
+            margin-bottom: 0.5rem;
+        }
+
+        .source-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+            font-size: 0.8rem;
+        }
+
+        .source-link:hover {
+            color: var(--accent-gold);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <a href="https://the-curiosity-portfolio.netlify.app" class="back-link">← Back to Portfolio</a>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <span class="header-label">Built From Curiosity Founder Asset Package v1.0</span>
+        <h1>PITCH DECK OUTLINE</h1>
+        <div class="subtitle">CompTIA Quest & Built From Curiosity — 10-Slide Structure</div>
+        <div class="meta-info">Approved by Founder · July 2026</div>
+    </header>
+
+    <!-- Deck Cards -->
+    <div class="deck-container">
+
+        <!-- Slide 01 -->
+        <div class="slide-card">
+            <span class="slide-badge">SLIDE 01</span>
+            <h2 class="slide-headline">CompTIA Quest: Building Real Technical Capability Through Gamified, Scenario-Based Learning</h2>
+            <ul class="slide-bullets">
+                <li>Mission: Help people become what they once thought was out of reach.</li>
+                <li>Live on the iOS App Store.</li>
+                <li>Product built by Built From Curiosity | Founder: Tiera Rider.</li>
+            </ul>
+            <div class="speaker-note">
+                <span class="speaker-label">Speaker Note</span>
+                "We created CompTIA Quest because we believe technical capability shouldn't be gated by passive reading — it should be unlocked through active, scenario-based play. It represents the first product proof-of-concept built under our Built From Curiosity operating philosophy."
+            </div>
+        </div>
+
+        <!-- Slide 02 -->
+        <div class="slide-card">
+            <span class="slide-badge">SLIDE 02</span>
+            <h2 class="slide-headline">Passive Study Models Fail the Modern, Diverse IT Learner</h2>
+            <ul class="slide-bullets">
+                <li>Standard IT training relies on dense textbooks, video lectures, and flat practice exams.</li>
+                <li>Memorizing terminology ≠ knowing how to troubleshoot a real machine.</li>
+                <li>Non-traditional learners often lose confidence before they ever touch a simulated problem.</li>
+            </ul>
+            <div class="speaker-note">
+                <span class="speaker-label">Speaker Note</span>
+                "When students are met with dry, passive slides, they don't just lose interest — they lose momentum. By shifting to active, mobile-first learning, we support learner engagement, confidence, practice consistency, and certification readiness."
+            </div>
+        </div>
+
+        <!-- Slide 03 -->
+        <div class="slide-card">
+            <span class="slide-badge">SLIDE 03</span>
+            <h2 class="slide-headline">Traditional Training Tools Are Gates, Not Bridges</h2>
+            <ul class="slide-bullets">
+                <li>Inaccessible interfaces — desktop-only labs that exclude mobile-first learners.</li>
+                <li>High-friction barriers — complex sign-ups before a student can try a single lesson.</li>
+                <li>No emotional connection — learning treated as a transaction, not a transformation.</li>
+            </ul>
+            <div class="speaker-note">
+                <span class="speaker-label">Speaker Note</span>
+                "We wanted to build a bridge, not a gate, on the device your students already use most."
+            </div>
+        </div>
+
+        <!-- Slide 04 -->
+        <div class="slide-card">
+            <span class="slide-badge">SLIDE 04</span>
+            <h2 class="slide-headline">Active, Scenario-Based Troubleshooting in the Palm of Your Hand</h2>
+            <ul class="slide-bullets">
+                <li>Mobile-first gamification — scenario-driven iOS app for CompTIA A+ prep.</li>
+                <li>Learning by doing — students resolve real-world hardware scenarios, not definition lists.</li>
+                <li>Guided by a 10-principle Product Constitution established by Built From Curiosity.</li>
+            </ul>
+            <div class="speaker-note">
+                <span class="speaker-label">Speaker Note</span>
+                "CompTIA Quest turns dry exam objectives into active troubleshooting missions."
+            </div>
+        </div>
+
+        <!-- Slide 05 -->
+        <div class="slide-card">
+            <span class="slide-badge">SLIDE 05</span>
+            <h2 class="slide-headline">The 8-Step Guest-First Learning Experience</h2>
+            <ul class="slide-bullets">
+                <li>Step 1–2: Download + enter as guest — zero friction.</li>
+                <li>Step 3–5: Laptop Components → 6 questions → first capability proof.</li>
+                <li>Step 6–8: Desktop Components → 5 questions → second capability proof.</li>
+                <li>Sign-in to save progress — In Progress.</li>
+            </ul>
+            <div class="speaker-note">
+                <span class="speaker-label">Speaker Note</span>
+                "A student can download our app and, within seconds, be solving hardware scenarios — without filling out a registration form first. The guest path is fully playable today."
+            </div>
+        </div>
+
+        <!-- Slide 06 -->
+        <div class="slide-card">
+            <span class="slide-badge">SLIDE 06</span>
+            <h2 class="slide-headline">Capability is built through learning. Belief is built through proof.</h2>
+            <ul class="slide-bullets">
+                <li>Capability: Bite-sized scenarios build immediate, practical technical understanding.</li>
+                <li>Proof: Successful troubleshooting provides objective evidence of skill.</li>
+                <li>Identity: Learners shift from aspiring outsider to capable IT professional.</li>
+                <li>Built From Curiosity is the company and philosophy. CompTIA Quest is the product that proves the model.</li>
+            </ul>
+            <div class="speaker-note">
+                <span class="speaker-label">Speaker Note</span>
+                "True transformation isn't about passing a test — it's about changing how a person sees themselves."
+            </div>
+        </div>
+
+        <!-- Slide 07 -->
+        <div class="slide-card">
+            <span class="slide-badge">SLIDE 07</span>
+            <h2 class="slide-headline">Measured Progress: Where We Stand Today</h2>
+            <ul class="slide-bullets">
+                <li>Live on the iOS App Store ✔</li>
+                <li>Two verified lessons, playable end-to-end ✔</li>
+                <li>Guest-first First Run experience approved ✔</li>
+                <li>Phase 1 Product Recovery & Stabilization complete ✔</li>
+                <li>Built From Curiosity Operating Model v1.0 published ✔</li>
+                <li>Sign-in inside First Run — In Progress</li>
+            </ul>
+            <div class="speaker-note">
+                <span class="speaker-label">Speaker Note</span>
+                "We don't have millions of users yet. What we have is a live app, two verified lessons, a completed stabilization phase, and a transparent operational model."
+            </div>
+        </div>
+
+        <!-- Slide 08 -->
+        <div class="slide-card">
+            <span class="slide-badge">SLIDE 08</span>
+            <h2 class="slide-headline">Stabilize → Improve → Grow → Expand</h2>
+            <ul class="slide-bullets">
+                <li>Phase 1: Stabilize — Completed (product recovery, App Store pipeline secure)</li>
+                <li>Phase 2: Improve — Active (sign-in, auth hardening, credential saving)</li>
+                <li>Phase 3: Grow — Next (full CompTIA A+ domain coverage)</li>
+                <li>Phase 4: Expand — Future (Network+, Security+, administrator dashboards)</li>
+            </ul>
+            <div class="speaker-note">
+                <span class="speaker-label">Speaker Note</span>
+                "Our roadmap is focused and systematic. We stabilized first. Now we improve, then grow."
+            </div>
+        </div>
+
+        <!-- Slide 09 -->
+        <div class="slide-card">
+            <span class="slide-badge">SLIDE 09</span>
+            <h2 class="slide-headline">Empower Your Next Cohort with Interactive Learning</h2>
+            <ul class="slide-bullets">
+                <li>Designed for workforce development programs, technical training organizations, and IT bootcamps.</li>
+                <li>Use CompTIA Quest as an active, mobile-first supplement to existing curriculum.</li>
+                <li>Early partners directly shape the feature roadmap and content priorities.</li>
+                <li>Pilot conversations welcome.</li>
+            </ul>
+            <div class="speaker-note">
+                <span class="speaker-label">Speaker Note</span>
+                "By exploring a pilot with CompTIA Quest, you can give your students a tool that builds real troubleshooting confidence outside the classroom."
+            </div>
+        </div>
+
+        <!-- Slide 10 -->
+        <div class="slide-card">
+            <span class="slide-badge">SLIDE 10</span>
+            <h2 class="slide-headline">Building the Future of Technical Education, Together</h2>
+            <ul class="slide-bullets">
+                <li>Built From Curiosity was founded on the belief that access to technical identity should be direct, engaging, and barrier-free.</li>
+                <li>Invitation: Download the app, try Laptop Components, experience it yourself.</li>
+                <li>App Store: <a href="https://apps.apple.com/us/app/comptia-quest/id6762166430" target="_blank" rel="noopener">apps.apple.com/us/app/comptia-quest/id6762166430</a></li>
+                <li>Website: <a href="https://comptiaquest.com" target="_blank" rel="noopener">comptiaquest.com</a></li>
+                <li>Founder Portfolio: <a href="https://the-curiosity-portfolio.netlify.app" target="_blank" rel="noopener">the-curiosity-portfolio.netlify.app</a></li>
+            </ul>
+            <div class="speaker-note">
+                <span class="speaker-label">Speaker Note</span>
+                "I built CompTIA Quest because I know what it is like to build technical capability from the ground up. Join us in helping your students build proof of what they can achieve."
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-brand">Built From Curiosity · Tiera Rider · 2026</div>
+        <div>
+            <a href="./pitch_deck_outline_v1.md" class="source-link">View source markdown</a>
+        </div>
+    </footer>
+
+</body>
+</html>
