@@ -1,0 +1,890 @@
+<!doctype html><html dir="auto"><head><meta http-equiv="Content-Security-Policy" content="default-src 'unsafe-inline' 'unsafe-eval' https: data: blob:; connect-src 'none'; form-action 'none'; base-uri 'none'">
+<script id="__base44_dark_class__">document.documentElement.classList.add('dark');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Text:wght@400;500;600;700&display=swap">
+<style id="__base44_editor_theme__">
+:root {
+  --background: 38 27% 94%;
+  --foreground: 0 0% 4%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 4%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 4%;
+  --primary: 21 42% 55%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 96%;
+  --secondary-foreground: 0 0% 9%;
+  --muted: 39 17% 93%;
+  --muted-foreground: 0 0% 45%;
+  --accent: 0 0% 96%;
+  --accent-foreground: 0 0% 9%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 98%;
+  --input: 0 0% 98%;
+  --ring: 21 42% 55%;
+  --radius: 0.5rem;
+  color-scheme: light;
+}
+.dark {
+  --background: 220 5% 11%;
+  --foreground: 0 0% 99%;
+  --card: 0 1% 14%;
+  --card-foreground: 0 0% 99%;
+  --popover: 0 1% 14%;
+  --popover-foreground: 0 0% 99%;
+  --primary: 21 42% 55%;
+  --primary-foreground: 0 0% 99%;
+  --secondary: 0 0% 18%;
+  --secondary-foreground: 0 0% 99%;
+  --muted: 0 0% 18%;
+  --muted-foreground: 0 0% 65%;
+  --accent: 0 0% 18%;
+  --accent-foreground: 0 0% 99%;
+  --destructive: 0 62% 30%;
+  --destructive-foreground: 0 0% 99%;
+  --border: 0 0% 16%;
+  --input: 0 0% 16%;
+  --ring: 21 42% 55%;
+  color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; }
+/* shadcn's base layer: default every element's border-color to the theme
+   token. Without this, Tailwind's bare `border` utility only sets width and
+   the color falls back to currentColor (near-black text) — so the model's
+   `border` cards render heavy/dark and the `--border` value is ignored.
+   Explicit `border-{color}` utilities and inline styles still override. */
+*, *::before, *::after { border-color: hsl(var(--border)); }
+html, body {
+  margin: 0 !important;
+  padding: 0;
+  overflow: auto !important;
+  /* Inline card: transparent, so the real chat surface (a gradient, not the
+     single flat `--background` stop) shows straight through and the artifact
+     reads as inline chat content in both themes. Standalone saved file: opaque
+     `--background` so it stays readable on its own page. `--card` stays
+     elevated for emphasis blocks (stat tiles, panels) so hierarchy reads. */
+  background: hsl(var(--background)) !important;
+  color: hsl(var(--foreground));
+  font-family: 'WixMadeforText', 'Wix Madefor Text', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+/* 8px (vs 16px) — minimal breathing room from the iframe edge so
+   tightly-composed dashboards don't ship a fat empty halo at the top
+   before their first element. LLMs add their own inner spacing. */
+body { padding: 8px; }
+code, kbd, pre, samp { font-family: 'WixMadeforMonospace', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+a { color: hsl(var(--primary)); }
+hr { border: 0; border-top: 1px solid hsl(var(--border)); }
+h1, h2, h3, h4, h5, h6 { font-weight: 600; color: hsl(var(--foreground)); }
+</style>
+<script id="__base44_tw_config__">
+window.tailwind = window.tailwind || {};
+window.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        primary: { DEFAULT: 'hsl(var(--primary))', foreground: 'hsl(var(--primary-foreground))' },
+        secondary: { DEFAULT: 'hsl(var(--secondary))', foreground: 'hsl(var(--secondary-foreground))' },
+        destructive: { DEFAULT: 'hsl(var(--destructive))', foreground: 'hsl(var(--destructive-foreground))' },
+        muted: { DEFAULT: 'hsl(var(--muted))', foreground: 'hsl(var(--muted-foreground))' },
+        accent: { DEFAULT: 'hsl(var(--accent))', foreground: 'hsl(var(--accent-foreground))' },
+        popover: { DEFAULT: 'hsl(var(--popover))', foreground: 'hsl(var(--popover-foreground))' },
+        card: { DEFAULT: 'hsl(var(--card))', foreground: 'hsl(var(--card-foreground))' },
+      },
+      // A bare `border` / `divide-*` (no color) falls back to Tailwind
+      // preflight's DEFAULT, which is a FIXED gray-200 (#e5e7eb) — subtle on the
+      // light card but near-white glare on the dark card. The `colors.border`
+      // map above only creates the `border-border` class; it does NOT set the
+      // uncolored default. Point the DEFAULT at the theme token so an uncolored
+      // border adapts to dark mode like the rest of the palette. (Explicit
+      // `border-primary` etc. still override.)
+      borderColor: { DEFAULT: 'hsl(var(--border))' },
+      divideColor: { DEFAULT: 'hsl(var(--border))' },
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
+      },
+      fontFamily: {
+        // Same two-name stack as `FONT_SANS_STACK` above. The
+        // sandboxed null-origin iframe lands on `Wix Madefor Text`
+        // (Google Fonts' name); `WixMadeforText` is here only for
+        // defense-in-depth in case the iframe ever runs same-origin.
+        sans: ['WixMadeforText', 'Wix Madefor Text', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        mono: ['WixMadeforMonospace', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+      },
+    },
+  },
+};
+</script>
+<script src="https://cdn.tailwindcss.com" id="__base44_tw_cdn__"></script></head><body><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Founder portfolio for Built From Curiosity and CompTIA Quest" />
+  <meta name="author" content="Tiera Rider" />
+  <title>Tiera Rider — Built From Curiosity Founder Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    :root { --nav-height: 5.5rem; }
+    html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-height) + 1.5rem); }
+    body { font-family: 'Inter', sans-serif; background: #0a0a0a; color: #e8e8e8; overflow-x: hidden; }
+    .brand-gold { color: #c9a84c; }
+    .brand-gold-bg { background: #c9a84c; }
+    .section-divider { border-color: #2a2a2a; }
+    .card-dark { background: #141414; border: 1px solid #242424; }
+    .card-mid { background: #1a1a1a; border: 1px solid #2a2a2a; }
+    .tag-verified { background: #0f2a1a; color: #4caf7d; border: 1px solid #1a4a2a; }
+    .tag-completed { background: #0d1f3a; color: #5b9bd5; border: 1px solid #1a3a5a; }
+    .tag-progress { background: #2a1f0a; color: #c9a84c; border: 1px solid #4a3a1a; }
+    .tag-planned { background: #1a1a2a; color: #8888cc; border: 1px solid #2a2a4a; }
+    .timeline-line { border-left: 2px solid #2a2a2a; }
+    .number-card { background: #141414; border: 1px solid #c9a84c22; }
+    section[id] { scroll-margin-top: calc(var(--nav-height) + 1.5rem); }
+    .site-nav { position: sticky; top: 0; z-index: 50; background: rgba(10, 10, 10, 0.94); border-bottom: 1px solid #2a2a2a; backdrop-filter: blur(14px); }
+    .nav-inner { max-width: 64rem; margin: 0 auto; padding: 0.75rem 2rem; }
+    .nav-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .nav-links { display: flex; gap: 0.35rem; overflow-x: auto; padding: 0.6rem 0 0.1rem; scrollbar-width: thin; scrollbar-color: #4a3a1a transparent; }
+    .nav-link { flex: 0 0 auto; color: #a3a3a3; border: 1px solid transparent; border-radius: 999px; padding: 0.4rem 0.7rem; font-size: 0.72rem; line-height: 1; text-decoration: none; white-space: nowrap; transition: color 160ms ease, border-color 160ms ease, background 160ms ease; }
+    .nav-link:hover, .nav-link:focus-visible, .nav-link[aria-current="location"] { color: #f5e6b5; border-color: #5a4820; background: #1b170d; }
+    .control-button, .copy-link-button, .filter-button, .evidence-toggle, .demo-toggle { appearance: none; font: inherit; }
+    .control-button { border: 1px solid #5a4820; background: #17140d; color: #f5e6b5; border-radius: 999px; padding: 0.55rem 0.9rem; font-size: 0.78rem; font-weight: 600; white-space: nowrap; transition: transform 160ms ease, background 160ms ease, border-color 160ms ease; }
+    .control-button:hover { background: #231d0f; border-color: #c9a84c; transform: translateY(-1px); }
+    .section-heading-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+    .copy-link-button { flex: 0 0 auto; border: 1px solid #34302a; background: transparent; color: #a3a3a3; border-radius: 999px; padding: 0.35rem 0.65rem; font-size: 0.7rem; line-height: 1.2; transition: color 160ms ease, border-color 160ms ease, background 160ms ease; }
+    .copy-link-button:hover { color: #f5e6b5; border-color: #6b5525; background: #17140d; }
+    button:focus-visible, a:focus-visible { outline: 3px solid #c9a84c; outline-offset: 3px; }
+    .filter-controls { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: -1rem 0 2rem; }
+    .filter-button { border: 1px solid #333; background: #141414; color: #b8b8b8; border-radius: 999px; padding: 0.45rem 0.75rem; font-size: 0.75rem; }
+    .filter-button:hover, .filter-button[aria-pressed="true"] { color: #f5e6b5; border-color: #8b7134; background: #211b0f; }
+    .evidence-group { border-top: 1px solid #242424; padding-top: 1rem; }
+    .evidence-toggle { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem; border: 0; background: transparent; color: #fff; padding: 0 0 1rem; text-align: left; font-size: 0.875rem; font-weight: 600; letter-spacing: 0.025em; text-transform: uppercase; }
+    .toggle-icon { color: #c9a84c; transition: transform 160ms ease; }
+    [aria-expanded="true"] .toggle-icon { transform: rotate(45deg); }
+    .evidence-card.is-filtered-out { display: none; }
+    .evidence-empty { display: none; color: #8f8f8f; font-size: 0.85rem; padding: 0.75rem 0; }
+    .evidence-group.is-empty .evidence-empty { display: block; }
+    .demo-path { position: relative; }
+    .demo-path::before { content: ""; position: absolute; left: 1.55rem; top: 1.75rem; bottom: 1.75rem; width: 1px; background: linear-gradient(#c9a84c, #3a3018); }
+    .demo-step { position: relative; transition: border-color 160ms ease, background 160ms ease; }
+    .demo-step.is-active { border-color: #6b5525; background: #18150f; }
+    .demo-toggle { position: relative; z-index: 1; width: 100%; display: grid; grid-template-columns: 2.25rem 1fr auto; align-items: center; gap: 1rem; border: 0; background: transparent; color: inherit; padding: 1rem 1.25rem; text-align: left; }
+    .demo-number { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 999px; background: #0a0a0a; border: 1px solid #5a4820; color: #c9a84c; font-size: 0.75rem; font-weight: 700; }
+    .demo-detail { padding: 0 1.25rem 1rem 4.5rem; color: #a3a3a3; font-size: 0.78rem; }
+    .back-to-top { position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 60; opacity: 0; pointer-events: none; transform: translateY(0.5rem); transition: opacity 160ms ease, transform 160ms ease; }
+    .back-to-top.is-visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    [hidden] { display: none !important; }
+    @media (max-width: 640px) {
+      :root { --nav-height: 7rem; }
+      .nav-inner { padding: 0.65rem 1rem; }
+      .nav-row { align-items: flex-start; }
+      .nav-brand { font-size: 0.72rem; }
+      header, main { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
+      .section-heading-row { display: block; }
+      .copy-link-button { margin-top: 0.4rem; }
+      .demo-toggle { grid-template-columns: 2.25rem 1fr auto; padding: 0.9rem; gap: 0.75rem; }
+      .demo-detail { padding: 0 0.9rem 0.9rem 3.9rem; }
+      .demo-path::before { left: 1.9rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+    }
+    @media print {
+      body { background: #fff !important; color: #181818 !important; padding: 0 !important; }
+      .site-nav, .copy-link-button, .filter-controls, .back-to-top { display: none !important; }
+      header, main { max-width: none !important; padding-left: 0.35in !important; padding-right: 0.35in !important; }
+      section { break-inside: auto; }
+      .card-dark, .card-mid, .number-card, .evidence-card, .demo-step { break-inside: avoid; background: #fff !important; border-color: #bbb !important; }
+      .text-white, .text-gray-300, .text-gray-400, .text-gray-500, .text-gray-600 { color: #222 !important; }
+      .brand-gold { color: #765d19 !important; }
+      .evidence-panel, .demo-detail { display: grid !important; }
+      .demo-path::before { background: #aaa; }
+      a { color: #222 !important; text-decoration: none; }
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+
+  <nav class="site-nav" aria-label="Portfolio sections">
+    <div class="nav-inner">
+      <div class="nav-row">
+        <a class="nav-brand text-xs tracking-widest uppercase brand-gold font-semibold" href="#top">Built From Curiosity</a>
+        <button class="control-button" type="button" id="print-page">Print / Save PDF</button>
+      </div>
+      <div class="nav-links" aria-label="Section links">
+        <a class="nav-link" href="#founder">Founder</a>
+        <a class="nav-link" href="#numbers">Numbers</a>
+        <a class="nav-link" href="#built-from-curiosity">Built From Curiosity</a>
+        <a class="nav-link" href="#comptia-quest">CompTIA Quest</a>
+        <a class="nav-link" href="#philosophy">Philosophy</a>
+        <a class="nav-link" href="#evidence">Evidence</a>
+        <a class="nav-link" href="#journey">Journey</a>
+        <a class="nav-link" href="#ai-operating-system">AI Operating System</a>
+        <a class="nav-link" href="#demo-path">Demo Path</a>
+        <a class="nav-link" href="#executive-summary">Executive Summary</a>
+        <a class="nav-link" href="#journey-changed">Journey Changed</a>
+        <a class="nav-link" href="#slide-outline">Slide Outline</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- COVER -->
+  <header id="top" class="px-8 py-20 max-w-5xl mx-auto border-b section-divider">
+    <p class="text-xs tracking-widest uppercase brand-gold mb-4">Founder Portfolio · 2026</p>
+    <h1 class="text-5xl font-bold text-white mb-3 leading-tight">Tiera Rider</h1>
+    <p class="text-2xl font-light text-gray-400 mb-6">Founder, Built From Curiosity &amp; CompTIA Quest</p>
+    <p class="text-base text-gray-500 max-w-xl leading-relaxed">
+      This portfolio documents what has been built, why it matters, what has been learned, and where it is going next.
+      Every claim is labeled: <span class="tag-completed text-xs px-2 py-0.5 rounded-full inline-block mx-0.5">Completed</span>
+      <span class="tag-verified text-xs px-2 py-0.5 rounded-full inline-block mx-0.5">Verified</span>
+      <span class="tag-progress text-xs px-2 py-0.5 rounded-full inline-block mx-0.5">In Progress</span>
+      <span class="tag-planned text-xs px-2 py-0.5 rounded-full inline-block mx-0.5">Planned</span>
+    </p>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-8">
+
+    <!-- 01 -->
+    <section id="founder" class="py-16 border-b section-divider">
+      <p class="text-xs tracking-widest uppercase brand-gold mb-6">01 — Founder Introduction</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div class="md:col-span-2 space-y-5 text-gray-300 leading-relaxed">
+          <p class="text-xl text-white font-medium leading-snug">
+            “CompTIA Quest wasn’t supposed to become a company.<br/><br/>
+            It started with one question I couldn’t stop asking while studying for my own certification:<br/><br/>
+            <em class="brand-gold">‘There has to be a better way than this.’</em><br/><br/>
+            That question eventually became CompTIA Quest — and later, Built From Curiosity.”
+          </p>
+          <p>I’ve always believed curiosity is one of the most overlooked forms of potential. People often assume confidence comes first, but I’ve found the opposite. Curiosity leads people to learn, learning builds capability, and repeated proof creates confidence.</p>
+          <p>When Tiera set out to earn her CompTIA A+ certification, she encountered the same wall most career changers hit: the material was dense, the study tools were passive, and nothing made her feel like she was actually getting somewhere. Rather than push through with tools that weren't working, she decided to build the one she wished existed.</p>
+          <p>CompTIA Quest is the result. A gamified, scenario-based iOS application built to transform intimidating technical concepts into an engaging, confidence-building experience — shipped to the App Store as a solo founder using generative AI, an application development environment, GitHub, and systems thinking.</p>
+          <p>Along the way, building the product became building a company. CompTIA Quest HQ, a recovery engineering process, a product constitution, and an operating model all emerged from the work. Tiera is not just building an app. She is building <strong class="text-white">Built From Curiosity</strong> — a learning company with its own doctrine, organizational structure, and operating philosophy.</p>
+        </div>
+        <div class="space-y-4">
+          <div class="card-dark rounded-xl p-5"><p class="text-xs uppercase tracking-widest text-gray-500 mb-2">Role</p><p class="text-white font-semibold">Founder &amp; Builder</p></div>
+          <div class="card-dark rounded-xl p-5"><p class="text-xs uppercase tracking-widest text-gray-500 mb-2">Company</p><p class="text-white font-semibold">Built From Curiosity</p></div>
+          <div class="card-dark rounded-xl p-5"><p class="text-xs uppercase tracking-widest text-gray-500 mb-2">Flagship Product</p><p class="text-white font-semibold">CompTIA Quest</p></div>
+          <div class="card-dark rounded-xl p-5"><p class="text-xs uppercase tracking-widest text-gray-500 mb-2">Status</p><span class="tag-verified text-xs px-2 py-1 rounded-full inline-block">Live on iOS App Store</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 -->
+    <section id="numbers" class="py-16 border-b section-divider">
+      <p class="text-xs tracking-widest uppercase brand-gold mb-4">02 — Numbers at a Glance</p>
+      <h2 class="text-3xl font-bold text-white mb-10">Evidence, not just ambition.</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="number-card rounded-xl p-6"><p class="text-3xl font-bold brand-gold mb-2">Live</p><p class="text-white font-semibold mb-1">On the App Store</p><p class="text-gray-400 text-sm">CompTIA Quest is publicly available on iOS.</p></div>
+        <div class="number-card rounded-xl p-6"><p class="text-3xl font-bold brand-gold mb-2">2</p><p class="text-white font-semibold mb-1">Verified Lessons</p><p class="text-gray-400 text-sm">Laptop Components and Desktop Components are playable end-to-end.</p></div>
+        <div class="number-card rounded-xl p-6"><p class="text-3xl font-bold brand-gold mb-2">11</p><p class="text-white font-semibold mb-1">Questions in Verified Demo Path</p><p class="text-gray-400 text-sm">Six Laptop Components questions and five Desktop Components questions.</p></div>
+        <div class="number-card rounded-xl p-6"><p class="text-3xl font-bold brand-gold mb-2">Guest‑First</p><p class="text-white font-semibold mb-1">First Run Experience</p><p class="text-gray-400 text-sm">Learners experience value before account creation is required.</p></div>
+        <div class="number-card rounded-xl p-6"><p class="text-3xl font-bold brand-gold mb-2">10</p><p class="text-white font-semibold mb-1">Product Constitution Principles</p><p class="text-gray-400 text-sm">Product, engineering, leadership, and operations doctrine.</p></div>
+        <div class="number-card rounded-xl p-6"><p class="text-3xl font-bold brand-gold mb-2">Model</p><p class="text-white font-semibold mb-1">AI-Supported Operating Model</p><p class="text-gray-400 text-sm">Founder's Office, HQ, Recovery Engineering, Product, Learning, and execution support.</p></div>
+      </div>
+    </section>
+
+    <!-- 03 -->
+    <section id="built-from-curiosity" class="py-16 border-b section-divider">
+      <p class="text-xs tracking-widest uppercase brand-gold mb-4">03 — Built From Curiosity</p>
+      <h2 class="text-3xl font-bold text-white mb-6">Help people become what they once thought was out of reach.</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="space-y-4 text-gray-300 leading-relaxed">
+          <p>Built From Curiosity is not an app studio. It is a learning company built on a single, non-negotiable belief:</p>
+          <blockquote class="border-l-2 border-yellow-600 pl-5 text-white text-lg font-medium">Capability is built through learning.<br/>Belief is built through proof.</blockquote>
+          <p>Traditional education often treats learning as a transaction — pay tuition, sit through lectures, memorize facts, pass a test. Built From Curiosity treats learning as an active transformation. It is designed for the career switcher, the self-taught builder, and the person breaking into technology from the outside.</p>
+          <p>CompTIA Quest is the first major expression of this philosophy — meeting learners at one of their most critical inflection points and replacing intimidation with earned evidence of capability.</p>
+        </div>
+        <div class="space-y-4">
+          <div class="card-dark rounded-xl p-5"><p class="brand-gold font-semibold mb-2">Mission</p><p class="text-gray-300 text-sm">Help people become what they once thought was out of reach.</p></div>
+          <div class="card-dark rounded-xl p-5"><p class="brand-gold font-semibold mb-2">Core Belief</p><p class="text-gray-300 text-sm">Capability is built through learning. Belief is built through proof.</p></div>
+          <div class="card-dark rounded-xl p-5"><p class="brand-gold font-semibold mb-2">Who It Serves</p><p class="text-gray-300 text-sm">Career changers, self-taught builders, and non-traditional learners breaking into technology.</p></div>
+          <div class="card-dark rounded-xl p-5"><p class="brand-gold font-semibold mb-2">First Product</p><p class="text-gray-300 text-sm">CompTIA Quest — live on the iOS App Store.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 -->
+    <section id="comptia-quest" class="py-16 border-b section-divider">
+      <p class="text-xs tracking-widest uppercase brand-gold mb-4">04 — CompTIA Quest</p>
+      <h2 class="text-3xl font-bold text-white mb-6">Turn study time into game time.</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="space-y-4 text-gray-300 leading-relaxed">
+          <p>CompTIA Quest is a gamified, mobile-first study application designed to help learners prepare for the CompTIA A+ certification without the burnout. It is live today on the iOS App Store.</p>
+          <p>The application is structured around a guest-first entry — users are not required to register before they experience the product. They begin learning immediately, earning XP, building streaks, and working through real-world IT scenarios from their very first session.</p>
+          <p>Every lesson is built around a specific capability: not a topic the learner read about, but something they can now actually do. That distinction — between knowing a subject and proving a capability — is what separates CompTIA Quest from traditional certification prep.</p>
+        </div>
+        <div class="space-y-3">
+          <p class="text-xs uppercase tracking-widest text-gray-500 mb-3">Core Features</p>
+          <div class="card-mid rounded-lg px-4 py-3 flex items-center gap-3"><span class="brand-gold">▸</span><span class="text-gray-300 text-sm">Scenario-based lessons with verified capability outcomes</span></div>
+          <div class="card-mid rounded-lg px-4 py-3 flex items-center gap-3"><span class="brand-gold">▸</span><span class="text-gray-300 text-sm">XP, streaks, and progress tracking</span></div>
+          <div class="card-mid rounded-lg px-4 py-3 flex items-center gap-3"><span class="brand-gold">▸</span><span class="text-gray-300 text-sm">Guest-first onboarding — value before account creation</span></div>
+          <div class="card-mid rounded-lg px-4 py-3 flex items-center gap-3"><span class="brand-gold">▸</span><span class="text-gray-300 text-sm">Completion proof moments at every milestone</span></div>
+          <div class="card-mid rounded-lg px-4 py-3 flex items-center gap-3"><span class="brand-gold">▸</span><span class="text-gray-300 text-sm">Campus, multiplayer, and Boss Battle systems</span></div>
+          <div class="card-mid rounded-lg px-4 py-3 flex items-center gap-3"><span class="brand-gold">▸</span><span class="text-gray-300 text-sm">Practice exam and extended question bank</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 -->
+    <section id="philosophy" class="py-16 border-b section-divider">
+      <p class="text-xs tracking-widest uppercase brand-gold mb-4">05 — Product Philosophy</p>
+      <h2 class="text-3xl font-bold text-white mb-10">Capability → Proof → Identity</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div class="card-dark rounded-xl p-6 border-t-2 border-yellow-600"><p class="text-4xl font-bold brand-gold mb-4">01</p><p class="text-white font-semibold mb-3">Capability</p><p class="text-gray-400 text-sm leading-relaxed">Capability is built through learning — not through passive reading, but through active application in realistic scenarios. Every lesson is built around what the learner can now do, not what topic they studied.</p></div>
+        <div class="card-dark rounded-xl p-6 border-t-2 border-yellow-600"><p class="text-4xl font-bold brand-gold mb-4">02</p><p class="text-white font-semibold mb-3">Proof</p><p class="text-gray-400 text-sm leading-relaxed">Belief is built through proof. Completion screens do not celebrate effort — they confirm what the learner has become capable of. That specificity is what makes the recognition meaningful.</p></div>
+        <div class="card-dark rounded-xl p-6 border-t-2 border-yellow-600"><p class="text-4xl font-bold brand-gold mb-4">03</p><p class="text-white font-semibold mb-3">Identity</p><p class="text-gray-400 text-sm leading-relaxed">We do not design identity. We create the conditions in which identity can emerge. When a learner repeatedly proves they can do the work, they stop wondering if they belong — they start knowing it.</p></div>
+      </div>
+      <div class="card-mid rounded-xl p-6">
+        <p class="text-white font-semibold mb-4">Before and After</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <p class="text-xs uppercase tracking-widest text-gray-500 mb-3">Traditional Cert Prep</p>
+            <div class="space-y-2">
+              <div class="flex items-center gap-3"><span class="text-red-400">✗</span><span class="text-gray-400 text-sm">Dense PDFs and passive reading</span></div>
+              <div class="flex items-center gap-3"><span class="text-red-400">✗</span><span class="text-gray-400 text-sm">Isolated flashcard memorization</span></div>
+              <div class="flex items-center gap-3"><span class="text-red-400">✗</span><span class="text-gray-400 text-sm">No feedback until the final exam</span></div>
+              <div class="flex items-center gap-3"><span class="text-red-400">✗</span><span class="text-gray-400 text-sm">Burnout before the finish line</span></div>
+              <div class="flex items-center gap-3"><span class="text-red-400">✗</span><span class="text-gray-400 text-sm">No proof of capability — only scores</span></div>
+            </div>
+          </div>
+          <div>
+            <p class="text-xs uppercase tracking-widest text-gray-500 mb-3">CompTIA Quest</p>
+            <div class="space-y-2">
+              <div class="flex items-center gap-3"><span class="text-green-400">✓</span><span class="text-gray-300 text-sm">Scenario-based learning in real contexts</span></div>
+              <div class="flex items-center gap-3"><span class="text-green-400">✓</span><span class="text-gray-300 text-sm">XP, streaks, and visible progress</span></div>
+              <div class="flex items-center gap-3"><span class="text-green-400">✓</span><span class="text-gray-300 text-sm">Immediate, specific capability feedback</span></div>
+              <div class="flex items-center gap-3"><span class="text-green-400">✓</span><span class="text-gray-300 text-sm">Momentum-first design to sustain habit</span></div>
+              <div class="flex items-center gap-3"><span class="text-green-400">✓</span><span class="text-gray-300 text-sm">Proof moments that confirm real capability</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 -->
+    <section id="evidence" class="py-16 border-b section-divider">
+      <p class="text-xs tracking-widest uppercase brand-gold mb-4">06 — Evidence of Execution</p>
+      <h2 class="text-3xl font-bold text-white mb-10">What has been built, shipped, documented, and verified.</h2>
+      <div class="space-y-10">
+        <div>
+          <p class="text-sm font-semibold text-white uppercase tracking-wide mb-4">Product</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-completed text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Completed</span><span class="text-gray-300 text-sm">App concept, architecture, and full build</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-completed text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Completed</span><span class="text-gray-300 text-sm">iOS App Store launch — publicly available</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-completed text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Completed</span><span class="text-gray-300 text-sm">Core A+ learning path and module structure</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-completed text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Completed</span><span class="text-gray-300 text-sm">Scenario-based lesson format — lesson-specific question counts, structured feedback, and completion proof</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-completed text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Completed</span><span class="text-gray-300 text-sm">XP, progress, and streak systems</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-completed text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Completed</span><span class="text-gray-300 text-sm">Guest mode — friction-free entry without account creation</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-completed text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Completed</span><span class="text-gray-300 text-sm">Learn and Profile navigation flows</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-verified text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Verified</span><span class="text-gray-300 text-sm">First Run Experience — 6 build tasks designed and approved</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-verified text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Verified</span><span class="text-gray-300 text-sm">Lesson 1 (Laptop Components) and Lesson 2 (Desktop Components) playable end-to-end</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-progress text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">In Progress</span><span class="text-gray-300 text-sm">Sign-in flow inside First Run experience</span></div>
+          </div>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-white uppercase tracking-wide mb-4">Engineering + Systems</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-completed text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Completed</span><span class="text-gray-300 text-sm">GitHub version control and source history</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-completed text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Completed</span><span class="text-gray-300 text-sm">Base44 application development environment</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-completed text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Completed</span><span class="text-gray-300 text-sm">RevenueCat subscriptions and entitlement protection</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-completed text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Completed</span><span class="text-gray-300 text-sm">Recovery Engineer process — audit, diagnose, stabilize, document</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-completed text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Completed</span><span class="text-gray-300 text-sm">Phase 1 stabilization — core auth and app shell restored</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-completed text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Completed</span><span class="text-gray-300 text-sm">Data correction for Desktop Components lesson</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-progress text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">In Progress</span><span class="text-gray-300 text-sm">Phase 2 First Run verification — guest-to-auth progress handoff</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-progress text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">In Progress</span><span class="text-gray-300 text-sm">Full native authentication return verification</span></div>
+          </div>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-white uppercase tracking-wide mb-4">Company + Founder Systems</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-completed text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Completed</span><span class="text-gray-300 text-sm">Built From Curiosity doctrine — Manifesto, Constitution, Playbooks</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-completed text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Completed</span><span class="text-gray-300 text-sm">Product Constitution — 10 principles across 4 categories</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-completed text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Completed</span><span class="text-gray-300 text-sm">Built From Curiosity Operating Model v1.0</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-completed text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Completed</span><span class="text-gray-300 text-sm">Executive Council — Product and Chief Learning Officer functions</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-completed text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Completed</span><span class="text-gray-300 text-sm">Recovery doctrine and engineering brief template</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-completed text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Completed</span><span class="text-gray-300 text-sm">CompTIA Quest HQ — AI-supported operational coordination</span></div>
+          </div>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-white uppercase tracking-wide mb-4">Learning Design</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-completed text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Completed</span><span class="text-gray-300 text-sm">Capability-based lesson design framework</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-completed text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Completed</span><span class="text-gray-300 text-sm">Emotional Rhythm Architecture — Heartbeat, Pulse, Trough, Crescendo</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-completed text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Completed</span><span class="text-gray-300 text-sm">Completion proof moment design — approved inheritable pattern</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-completed text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Completed</span><span class="text-gray-300 text-sm">Built From Curiosity Learning Philosophy — first draft</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-verified text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">Verified</span><span class="text-gray-300 text-sm">Desktop Components continuation — seamless Lesson 1 to Lesson 2 flow</span></div>
+            <div class="card-mid rounded-lg px-4 py-3 flex items-start gap-3"><span class="tag-progress text-xs px-2 py-0.5 rounded-full shrink-0 mt-0.5">In Progress</span><span class="text-gray-300 text-sm">Full question bank audit and CompTIA domain mapping</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 -->
+    <section id="proven-planned" class="py-16 border-b section-divider">
+      <p class="text-xs tracking-widest uppercase brand-gold mb-4">07 — Proven vs. Planned</p>
+      <h2 class="text-3xl font-bold text-white mb-10">Honest about what is done. Clear about what is next.</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <p class="text-sm font-semibold text-green-400 uppercase tracking-wide mb-4">✔ Proven</p>
+          <div class="space-y-3">
+            <div class="card-dark rounded-lg px-4 py-3 flex items-center gap-3"><span class="text-green-400">✔</span><span class="text-gray-300 text-sm">Live app on the iOS App Store</span></div>
+            <div class="card-dark rounded-lg px-4 py-3 flex items-center gap-3"><span class="text-green-400">✔</span><span class="text-gray-300 text-sm">Lesson 1 and Lesson 2 verified and playable</span></div>
+            <div class="card-dark rounded-lg px-4 py-3 flex items-center gap-3"><span class="text-green-400">✔</span><span class="text-gray-300 text-sm">Guest-first First Run experience designed and approved</span></div>
+            <div class="card-dark rounded-lg px-4 py-3 flex items-center gap-3"><span class="text-green-400">✔</span><span class="text-gray-300 text-sm">Auth and recovery crisis stabilized (Phase 1)</span></div>
+            <div class="card-dark rounded-lg px-4 py-3 flex items-center gap-3"><span class="text-green-400">✔</span><span class="text-gray-300 text-sm">RevenueCat subscriptions protected</span></div>
+            <div class="card-dark rounded-lg px-4 py-3 flex items-center gap-3"><span class="text-green-400">✔</span><span class="text-gray-300 text-sm">Company doctrine created and maintained</span></div>
+            <div class="card-dark rounded-lg px-4 py-3 flex items-center gap-3"><span class="text-green-400">✔</span><span class="text-gray-300 text-sm">Recovery Engineer process built and deployed</span></div>
+            <div class="card-dark rounded-lg px-4 py-3 flex items-center gap-3"><span class="text-green-400">✔</span><span class="text-gray-300 text-sm">Built From Curiosity Operating Model v1.0 published</span></div>
+          </div>
+        </div>
+        <div>
+          <p class="text-sm font-semibold brand-gold uppercase tracking-wide mb-4">→ Next</p>
+          <div class="space-y-3">
+            <div class="card-dark rounded-lg px-4 py-3 flex items-center gap-3"><span class="brand-gold">→</span><span class="text-gray-400 text-sm">Native auth return verification</span></div>
+            <div class="card-dark rounded-lg px-4 py-3 flex items-center gap-3"><span class="brand-gold">→</span><span class="text-gray-400 text-sm">Sign-in inside First Run</span></div>
+            <div class="card-dark rounded-lg px-4 py-3 flex items-center gap-3"><span class="brand-gold">→</span><span class="text-gray-400 text-sm">Guest-to-auth progress merge hardening</span></div>
+            <div class="card-dark rounded-lg px-4 py-3 flex items-center gap-3"><span class="brand-gold">→</span><span class="text-gray-400 text-sm">Full question bank audit and objective mapping</span></div>
+            <div class="card-dark rounded-lg px-4 py-3 flex items-center gap-3"><span class="brand-gold">→</span><span class="text-gray-400 text-sm">Lesson expansion beyond Lesson 2</span></div>
+            <div class="card-dark rounded-lg px-4 py-3 flex items-center gap-3"><span class="brand-gold">→</span><span class="text-gray-400 text-sm">Backend content management system</span></div>
+            <div class="card-dark rounded-lg px-4 py-3 flex items-center gap-3"><span class="brand-gold">→</span><span class="text-gray-400 text-sm">Analytics dashboard and retention tracking</span></div>
+            <div class="card-dark rounded-lg px-4 py-3 flex items-center gap-3"><span class="brand-gold">→</span><span class="text-gray-400 text-sm">App Store reviews and social proof campaign</span></div>
+            <div class="card-dark rounded-lg px-4 py-3 flex items-center gap-3"><span class="brand-gold">→</span><span class="text-gray-400 text-sm">Android / Google Play (future consideration)</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 -->
+    <section id="journey" class="py-16 border-b section-divider">
+      <p class="text-xs tracking-widest uppercase brand-gold mb-4">08 — Founder Journey</p>
+      <h2 class="text-3xl font-bold text-white mb-12">The path that made this possible.</h2>
+      <div class="relative pl-8 timeline-line space-y-10 max-w-2xl">
+        <div class="relative">
+          <div class="absolute -left-10 w-4 h-4 rounded-full brand-gold-bg top-1"></div>
+          <p class="brand-gold text-sm font-semibold mb-1">2024</p>
+          <p class="text-white font-semibold">MAT² Apprenticeship · Henry Ford</p>
+          <p class="text-gray-400 text-sm mt-1">Entered the technology workforce pipeline, building foundational professional and technical skills.</p>
+          <span class="tag-verified text-xs px-2 py-0.5 rounded-full inline-block mt-2">Verified</span>
+        </div>
+        <div class="relative">
+          <div class="absolute -left-10 w-4 h-4 rounded-full brand-gold-bg top-1"></div>
+          <p class="brand-gold text-sm font-semibold mb-1">2026</p>
+          <p class="text-white font-semibold">Per Scholas · AI-Enabled IT Support Program</p>
+          <p class="text-gray-400 text-sm mt-1">Completed the 15-week AI-Enabled IT Support program in 10 weeks while preparing for CompTIA A+ and developing the early foundation of CompTIA Quest.</p>
+          <span class="tag-verified text-xs px-2 py-0.5 rounded-full inline-block mt-2">Verified</span>
+        </div>
+        <div class="relative">
+          <div class="absolute -left-10 w-4 h-4 rounded-full brand-gold-bg top-1"></div>
+          <p class="brand-gold text-sm font-semibold mb-1">2026</p>
+          <p class="text-white font-semibold">Built CompTIA Quest</p>
+          <p class="text-gray-400 text-sm mt-1">Used AI, Base44, Codex, and GitHub to build and ship a full iOS application as a solo founder.</p>
+          <span class="tag-verified text-xs px-2 py-0.5 rounded-full inline-block mt-2">Verified</span>
+        </div>
+        <div class="relative">
+          <div class="absolute -left-10 w-4 h-4 rounded-full brand-gold-bg top-1"></div>
+          <p class="brand-gold text-sm font-semibold mb-1">2026</p>
+          <p class="text-white font-semibold">App Store Launch</p>
+          <p class="text-gray-400 text-sm mt-1">Navigated Apple's review process and launched CompTIA Quest publicly on iOS.</p>
+          <span class="tag-verified text-xs px-2 py-0.5 rounded-full inline-block mt-2">Verified</span>
+        </div>
+        <div class="relative">
+          <div class="absolute -left-10 w-4 h-4 rounded-full brand-gold-bg top-1"></div>
+          <p class="brand-gold text-sm font-semibold mb-1">2026</p>
+          <p class="text-white font-semibold">Product Recovery &amp; Stabilization</p>
+          <p class="text-gray-400 text-sm mt-1">An authentication and platform instability threatened app reliability. Tiera coordinated a structured recovery that protected RevenueCat and core systems, completed Phase 1 stabilization, and established verification gates. Native authentication return and First Run sign-in remain in progress.</p>
+          <span class="tag-progress text-xs px-2 py-0.5 rounded-full inline-block mt-2">In Progress</span>
+        </div>
+        <div class="relative">
+          <div class="absolute -left-10 w-4 h-4 rounded-full brand-gold-bg top-1"></div>
+          <p class="brand-gold text-sm font-semibold mb-1">2026</p>
+          <p class="text-white font-semibold">Recovery Doctrine Created</p>
+          <p class="text-gray-400 text-sm mt-1">Every hard-won engineering lesson from the recovery became an institutional process. Recovery is now a repeatable, documented system — not a one-time scramble.</p>
+          <span class="tag-verified text-xs px-2 py-0.5 rounded-full inline-block mt-2">Verified</span>
+        </div>
+        <div class="relative">
+          <div class="absolute -left-10 w-4 h-4 rounded-full brand-gold-bg top-1"></div>
+          <p class="brand-gold text-sm font-semibold mb-1">2026</p>
+          <p class="text-white font-semibold">Built From Curiosity Operating System</p>
+          <p class="text-gray-400 text-sm mt-1">The Manifesto, Constitution, Playbooks, Operating Model, and Executive Council formalized as governing documents for the company.</p>
+          <span class="tag-verified text-xs px-2 py-0.5 rounded-full inline-block mt-2">Verified</span>
+        </div>
+        <div class="relative">
+          <div class="absolute -left-10 w-4 h-4 rounded-full brand-gold-bg top-1"></div>
+          <p class="brand-gold text-sm font-semibold mb-1">2026 → Future</p>
+          <p class="text-white font-semibold">Built From Curiosity Expansion</p>
+          <p class="text-gray-400 text-sm mt-1">CompTIA Quest is the first product. The organizational infrastructure now exists to build the next one.</p>
+          <span class="tag-planned text-xs px-2 py-0.5 rounded-full inline-block mt-2">Planned</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 09 -->
+    <section id="ai-operating-system" class="py-16 border-b section-divider">
+      <p class="text-xs tracking-widest uppercase brand-gold mb-4">09 — The AI Operating System</p>
+      <h2 class="text-3xl font-bold text-white mb-4">This is not just using AI.</h2>
+      <p class="text-gray-400 mb-10 max-w-2xl">It is managing an AI-supported organization — with defined roles, decision boundaries, and governing principles for each function.</p>
+      <p class="text-gray-300 mb-10 max-w-2xl">Every role exists to reduce cognitive load on the Founder while increasing consistency, documentation, and decision quality.</p>
+      <div class="space-y-6">
+        <div>
+          <p class="text-xs uppercase tracking-widest text-gray-500 mb-3">A — Executive Layer</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="card-dark rounded-xl p-5"><p class="brand-gold font-semibold mb-1">Founder's Office</p><p class="text-gray-400 text-sm leading-relaxed">Strategic planning, doctrine, decision logging, governance, and organizational memory. The Founder remains the final decision-maker on all matters of direction and approval.</p></div>
+            <div class="card-dark rounded-xl p-5"><p class="brand-gold font-semibold mb-1">CompTIA Quest HQ</p><p class="text-gray-400 text-sm leading-relaxed">Product coordination, operational oversight, initiative tracking, executive review, and cross-functional alignment. Operates as a multi-lens advisory function, not a decision authority.</p></div>
+          </div>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-widest text-gray-500 mb-3">B — Engineering Layer</p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="card-dark rounded-xl p-5"><p class="brand-gold font-semibold mb-1">Recovery Engineer</p><p class="text-gray-400 text-sm leading-relaxed">Technical audits, regression analysis, recovery planning, risk classification, and controlled stabilization.</p></div>
+            <div class="card-dark rounded-xl p-5"><p class="brand-gold font-semibold mb-1">Codex</p><p class="text-gray-400 text-sm leading-relaxed">Engineering implementation, repository inspection, code generation, and approved technical execution.</p></div>
+            <div class="card-dark rounded-xl p-5"><p class="brand-gold font-semibold mb-1">GitHub</p><p class="text-gray-400 text-sm leading-relaxed">Version control, source history, checkpoints, pull requests, and recovery references.</p></div>
+          </div>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-widest text-gray-500 mb-3">C — Product and Build Layer</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="card-dark rounded-xl p-5"><p class="brand-gold font-semibold mb-1">Base44</p><p class="text-gray-400 text-sm leading-relaxed">Application development environment — frontend implementation, backend entities, functions, and rapid product iteration.</p></div>
+            <div class="card-dark rounded-xl p-5"><p class="brand-gold font-semibold mb-1">Product Systems</p><p class="text-gray-400 text-sm leading-relaxed">Product briefs, experience requirements, sequencing, capability gates, and implementation standards. Governed by the Product Constitution and Operating Model.</p></div>
+          </div>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-widest text-gray-500 mb-3">D — Platform and Operations Layer</p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="card-dark rounded-xl p-5"><p class="brand-gold font-semibold mb-1">RevenueCat</p><p class="text-gray-400 text-sm leading-relaxed">Subscriptions, purchases, entitlements, and monetization infrastructure.</p></div>
+            <div class="card-dark rounded-xl p-5"><p class="brand-gold font-semibold mb-1">Apple</p><p class="text-gray-400 text-sm leading-relaxed">iOS distribution, App Store publishing, native platform requirements, and production release.</p></div>
+            <div class="card-dark rounded-xl p-5"><p class="brand-gold font-semibold mb-1">Natively</p><p class="text-gray-400 text-sm leading-relaxed">Native application wrapper, device environment, mobile capabilities, and app deployment support.</p></div>
+          </div>
+        </div>
+      </div>
+      <p class="text-gray-500 text-sm mt-8 max-w-2xl">The tools may evolve. The organizational roles, decision boundaries, and governing principles are designed to endure.</p>
+    </section>
+
+    <!-- 10 -->
+    <section id="demo-path" class="py-16 border-b section-divider">
+      <p class="text-xs tracking-widest uppercase brand-gold mb-4">10 — Verified Demo Path</p>
+      <h2 class="text-3xl font-bold text-white mb-4">The learner's first chapter, end to end.</h2>
+      <p class="text-gray-400 mb-10 max-w-2xl">The following path is stable, tested, and repeatable. It is guest-first by design — value before account creation. Sign-in during the First Run sequence remains in progress.</p>
+      <div class="max-w-2xl space-y-3">
+        <div class="card-dark rounded-xl px-5 py-4 flex items-center gap-4"><span class="brand-gold font-bold text-sm w-6 shrink-0">01</span><div><p class="text-white font-medium text-sm">Fresh Guest Entry</p><p class="text-gray-400 text-xs mt-0.5">No registration barrier. The learner begins immediately.</p></div></div>
+        <div class="card-dark rounded-xl px-5 py-4 flex items-center gap-4"><span class="brand-gold font-bold text-sm w-6 shrink-0">02</span><div><p class="text-white font-medium text-sm">First Run Intro</p><p class="text-gray-400 text-xs mt-0.5">Capability briefing — not a welcome screen. The learner knows what they are about to prove.</p></div></div>
+        <div class="card-dark rounded-xl px-5 py-4 flex items-center gap-4"><span class="brand-gold font-bold text-sm w-6 shrink-0">03</span><div><p class="text-white font-medium text-sm">Laptop Components — Lesson 1</p><p class="text-gray-400 text-xs mt-0.5">Six scenario-based questions covering core laptop hardware.</p></div></div>
+        <div class="card-dark rounded-xl px-5 py-4 flex items-center gap-4"><span class="brand-gold font-bold text-sm w-6 shrink-0">04</span><div><p class="text-white font-medium text-sm">Capability Proof — Lesson 1 Completion</p><p class="text-gray-400 text-xs mt-0.5">The learner receives specific evidence of what they can now do — not a generic "nice work."</p></div></div>
+        <div class="card-dark rounded-xl px-5 py-4 flex items-center gap-4"><span class="brand-gold font-bold text-sm w-6 shrink-0">05</span><div><p class="text-white font-medium text-sm">Next Step</p><p class="text-gray-400 text-xs mt-0.5">One direction. One card. No overwhelm.</p></div></div>
+        <div class="card-dark rounded-xl px-5 py-4 flex items-center gap-4"><span class="brand-gold font-bold text-sm w-6 shrink-0">06</span><div><p class="text-white font-medium text-sm">Desktop Components — Lesson 2</p><p class="text-gray-400 text-xs mt-0.5">Five scenario-based questions covering desktop hardware architecture.</p></div></div>
+        <div class="card-dark rounded-xl px-5 py-4 flex items-center gap-4"><span class="brand-gold font-bold text-sm w-6 shrink-0">07</span><div><p class="text-white font-medium text-sm">Capability Proof — Lesson 2 Completion</p><p class="text-gray-400 text-xs mt-0.5">A second earned proof. The learner now has a track record, not just a score.</p></div></div>
+        <div class="card-dark rounded-xl px-5 py-4 flex items-center gap-4"><span class="brand-gold font-bold text-sm w-6 shrink-0">08</span><div><p class="text-white font-medium text-sm">App Shell — Learn and Profile</p><p class="text-gray-400 text-xs mt-0.5">The full application is accessible. Authentication modal available in Profile for users ready to save their progress.</p></div></div>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section id="executive-summary" class="py-16 border-b section-divider">
+      <p class="text-xs tracking-widest uppercase brand-gold mb-4">11 — Executive Summary</p>
+      <h2 class="text-3xl font-bold text-white mb-10">One page. The full story.</h2>
+      <div class="card-dark rounded-2xl p-8 max-w-3xl space-y-6">
+        <div>
+          <p class="text-xs uppercase tracking-widest text-gray-500 mb-2">The Founder</p>
+          <p class="text-gray-300 leading-relaxed">Tiera Rider is a product strategist, systems builder, and the founder of Built From Curiosity. She built CompTIA Quest — a gamified iOS application for CompTIA A+ certification prep — from her own learning journey, using AI tools, an application development environment, and GitHub as a solo founder. She is building not just a product, but a learning company with its own doctrine, organizational structure, and operating philosophy.</p>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-widest text-gray-500 mb-2">The Product</p>
+          <p class="text-gray-300 leading-relaxed">CompTIA Quest is live on the iOS App Store. It features a guest-first onboarding experience, scenario-based lessons, XP and progress systems, capability proof moments, and a verified two-lesson demo path. It is built to make certification prep engaging, confidence-building, and evidence-based — not just entertaining.</p>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-widest text-gray-500 mb-2">What Has Been Proven</p>
+          <p class="text-gray-300 leading-relaxed">This portfolio demonstrates that a modern founder can use disciplined systems, AI collaboration, and careful product thinking to design, ship, recover, and continuously improve a real software product. The company has survived a critical authentication crisis, stabilized its core systems, verified its first two lessons end-to-end, and produced a governing doctrine strong enough to guide future decisions without re-deriving them from scratch each time.</p>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-widest text-gray-500 mb-2">The Opportunity</p>
+          <p class="text-gray-300 leading-relaxed">Built From Curiosity is designed to partner with workforce development programs, technical training organizations, and educational institutions. By aligning CompTIA Quest's capability-based design with institutional training pathways, the company can lower dropout rates, accelerate certification timelines, and give non-traditional learners the evidence they need to believe they belong in the field.</p>
+        </div>
+        <div class="border-t border-gray-800 pt-5">
+          <p class="text-white font-medium leading-relaxed italic">"CompTIA Quest demonstrates what Built From Curiosity believes: confidence is not taught — it is earned through proof."</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section id="journey-changed" class="py-16 border-b section-divider">
+      <p class="text-xs tracking-widest uppercase brand-gold mb-4">12 — What This Journey Changed</p>
+      <h2 class="text-3xl font-bold text-white mb-10">In Tiera's own words.</h2>
+      <div class="max-w-3xl space-y-6 text-gray-300 leading-relaxed">
+        <p class="text-lg">"I started by trying to build a better study app.</p>
+        <p>Along the way, I learned product design, learning experience design, systems thinking, GitHub, AI orchestration, engineering recovery, founder decision-making, organizational design, and the discipline of documenting why decisions were made.</p>
+        <p>CompTIA Quest became more than an application. It became proof that I could identify a real problem, build a functioning product, ship it publicly, recover it under pressure, and create systems strong enough to continue beyond one difficult moment.</p>
+        <p>Built From Curiosity became more than the name behind the product. It became the structure through which I am learning how to build products, organizations, and myself as a founder.</p>
+        <p>The biggest change is not that I now know how to use more tools. The biggest change is that I now know how to turn curiosity into a repeatable system for learning, building, recovering, and growing."</p>
+        <div class="card-mid rounded-xl p-6 my-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <p class="text-xs uppercase tracking-widest text-gray-500 mb-4">From</p>
+              <div class="space-y-3">
+                <div class="flex items-start gap-3"><span class="text-gray-500 mt-0.5">—</span><span class="text-gray-400 text-sm">Building from instinct</span></div>
+                <div class="flex items-start gap-3"><span class="text-gray-500 mt-0.5">—</span><span class="text-gray-400 text-sm">Holding everything in memory</span></div>
+                <div class="flex items-start gap-3"><span class="text-gray-500 mt-0.5">—</span><span class="text-gray-400 text-sm">Solving every problem personally</span></div>
+                <div class="flex items-start gap-3"><span class="text-gray-500 mt-0.5">—</span><span class="text-gray-400 text-sm">Measuring progress by activity</span></div>
+              </div>
+            </div>
+            <div>
+              <p class="text-xs uppercase tracking-widest brand-gold mb-4">To</p>
+              <div class="space-y-3">
+                <div class="flex items-start gap-3"><span class="brand-gold mt-0.5">→</span><span class="text-gray-300 text-sm">Building through doctrine and evidence</span></div>
+                <div class="flex items-start gap-3"><span class="brand-gold mt-0.5">→</span><span class="text-gray-300 text-sm">Creating organizational memory</span></div>
+                <div class="flex items-start gap-3"><span class="brand-gold mt-0.5">→</span><span class="text-gray-300 text-sm">Designing roles, systems, and approval boundaries</span></div>
+                <div class="flex items-start gap-3"><span class="brand-gold mt-0.5">→</span><span class="text-gray-300 text-sm">Measuring progress through capability and proof</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p>"I still have a tremendous amount to learn. That isn't something I hide — it is the reason Built From Curiosity exists. Curiosity is no longer just a personality trait. It has become the system through which I learn, build, recover, and grow."</p>
+        <p class="text-white font-medium text-lg">"CompTIA Quest is the first product that proved the model. Built From Curiosity is the organization being built to carry it forward."</p>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section id="slide-outline" class="py-16 border-b section-divider">
+      <p class="text-xs tracking-widest uppercase brand-gold mb-4">13 — Slide Deck Outline</p>
+      <h2 class="text-3xl font-bold text-white mb-10">12-Slide Presentation Structure</h2>
+      <div class="max-w-3xl space-y-3">
+        <div class="card-mid rounded-xl px-5 py-4 flex items-start gap-4"><span class="brand-gold font-mono text-sm w-16 shrink-0 pt-0.5">Slide 01</span><div><p class="text-white font-semibold text-sm">Cover</p><p class="text-gray-400 text-sm mt-0.5">Tiera Rider · Built From Curiosity · CompTIA Quest</p></div></div>
+        <div class="card-mid rounded-xl px-5 py-4 flex items-start gap-4"><span class="brand-gold font-mono text-sm w-16 shrink-0 pt-0.5">Slide 02</span><div><p class="text-white font-semibold text-sm">The Origin</p><p class="text-gray-400 text-sm mt-0.5">Why CompTIA Quest exists and the question that started it.</p></div></div>
+        <div class="card-mid rounded-xl px-5 py-4 flex items-start gap-4"><span class="brand-gold font-mono text-sm w-16 shrink-0 pt-0.5">Slide 03</span><div><p class="text-white font-semibold text-sm">The Problem</p><p class="text-gray-400 text-sm mt-0.5">Why traditional IT certification preparation fails many career changers.</p></div></div>
+        <div class="card-mid rounded-xl px-5 py-4 flex items-start gap-4"><span class="brand-gold font-mono text-sm w-16 shrink-0 pt-0.5">Slide 04</span><div><p class="text-white font-semibold text-sm">The Product</p><p class="text-gray-400 text-sm mt-0.5">What CompTIA Quest is, who it serves, and how it works.</p></div></div>
+        <div class="card-mid rounded-xl px-5 py-4 flex items-start gap-4"><span class="brand-gold font-mono text-sm w-16 shrink-0 pt-0.5">Slide 05</span><div><p class="text-white font-semibold text-sm">The Philosophy</p><p class="text-gray-400 text-sm mt-0.5">Capability → Proof → Identity.</p></div></div>
+        <div class="card-mid rounded-xl px-5 py-4 flex items-start gap-4"><span class="brand-gold font-mono text-sm w-16 shrink-0 pt-0.5">Slide 06</span><div><p class="text-white font-semibold text-sm">The Demo Path</p><p class="text-gray-400 text-sm mt-0.5">The verified guest-first learner journey from first launch through Lesson 2.</p></div></div>
+        <div class="card-mid rounded-xl px-5 py-4 flex items-start gap-4"><span class="brand-gold font-mono text-sm w-16 shrink-0 pt-0.5">Slide 07</span><div><p class="text-white font-semibold text-sm">The Founder Journey</p><p class="text-gray-400 text-sm mt-0.5">MAT² → Per Scholas → CompTIA Quest → App Store → Recovery → Built From Curiosity.</p></div></div>
+        <div class="card-mid rounded-xl px-5 py-4 flex items-start gap-4"><span class="brand-gold font-mono text-sm w-16 shrink-0 pt-0.5">Slide 08</span><div><p class="text-white font-semibold text-sm">The AI Operating System</p><p class="text-gray-400 text-sm mt-0.5">Base44, Codex, GitHub, CompTIA Quest HQ, Recovery Engineer, and Founder's Office.</p></div></div>
+        <div class="card-mid rounded-xl px-5 py-4 flex items-start gap-4"><span class="brand-gold font-mono text-sm w-16 shrink-0 pt-0.5">Slide 09</span><div><p class="text-white font-semibold text-sm">What Has Been Proven</p><p class="text-gray-400 text-sm mt-0.5">Verified milestones, stable systems, and live product evidence.</p></div></div>
+        <div class="card-mid rounded-xl px-5 py-4 flex items-start gap-4"><span class="brand-gold font-mono text-sm w-16 shrink-0 pt-0.5">Slide 10</span><div><p class="text-white font-semibold text-sm">The Roadmap</p><p class="text-gray-400 text-sm mt-0.5">Stabilize → Improve Learning Quality → Grow → Expand Built From Curiosity.</p></div></div>
+        <div class="card-mid rounded-xl px-5 py-4 flex items-start gap-4"><span class="brand-gold font-mono text-sm w-16 shrink-0 pt-0.5">Slide 11</span><div><p class="text-white font-semibold text-sm">The Opportunity</p><p class="text-gray-400 text-sm mt-0.5">Workforce partnerships, pilot programs, and learner impact.</p></div></div>
+        <div class="card-mid rounded-xl px-5 py-4 flex items-start gap-4"><span class="brand-gold font-mono text-sm w-16 shrink-0 pt-0.5">Slide 12</span><div><p class="text-white font-semibold text-sm">Closing</p><p class="text-gray-400 text-sm mt-0.5">CompTIA Quest is the first proof. It will not be the last.</p></div></div>
+      </div>
+    </section>
+
+    <!-- CLOSING -->
+    <section class="py-20 text-center">
+      <p class="text-gray-500 text-sm uppercase tracking-widest mb-8">Built From Curiosity</p>
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 leading-snug max-w-2xl mx-auto">Built From Curiosity began as the name behind one app.</h2>
+      <p class="text-gray-400 text-lg max-w-xl mx-auto mb-4">It has evolved into an operating system for building products, organizations, and founders.</p>
+      <p class="text-gray-400 text-lg max-w-xl mx-auto mb-4">CompTIA Quest is the first proof.</p>
+      <p class="brand-gold text-xl font-semibold max-w-xl mx-auto">It won't be the last.</p>
+      <div class="mt-16 pt-8 border-t section-divider text-gray-600 text-xs">Tiera Rider · Built From Curiosity · CompTIA Quest · 2026</div>
+    </section>
+
+  </main>
+
+  <button class="control-button back-to-top" type="button" id="back-to-top" aria-label="Back to top">Back to Top</button>
+
+  <script>
+    (() => {
+      const sectionIds = [
+        'founder', 'numbers', 'built-from-curiosity', 'comptia-quest', 'philosophy',
+        'evidence', 'journey', 'ai-operating-system', 'demo-path', 'executive-summary',
+        'journey-changed', 'slide-outline'
+      ];
+
+      const copyText = async (text) => {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+          return;
+        }
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.setAttribute('readonly', '');
+        textArea.style.position = 'fixed';
+        textArea.style.opacity = '0';
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        textArea.remove();
+      };
+
+      sectionIds.forEach((id) => {
+        const section = document.getElementById(id);
+        const label = section?.querySelector(':scope > p');
+        if (!section || !label) return;
+
+        const headingRow = document.createElement('div');
+        headingRow.className = 'section-heading-row';
+        label.parentNode.insertBefore(headingRow, label);
+        headingRow.appendChild(label);
+
+        const copyButton = document.createElement('button');
+        copyButton.type = 'button';
+        copyButton.className = 'copy-link-button';
+        copyButton.textContent = 'Copy section link';
+        copyButton.setAttribute('aria-live', 'polite');
+        copyButton.setAttribute('aria-label', `Copy link to ${label.textContent.replace(/^\d+\s—\s/, '')}`);
+        copyButton.addEventListener('click', async () => {
+          const sectionUrl = `${window.location.href.split('#')[0]}#${id}`;
+          try {
+            await copyText(sectionUrl);
+            copyButton.textContent = 'Copied';
+          } catch (error) {
+            copyButton.textContent = 'Copy failed';
+          }
+          window.setTimeout(() => { copyButton.textContent = 'Copy section link'; }, 1800);
+        });
+        headingRow.appendChild(copyButton);
+      });
+
+      const evidenceSection = document.getElementById('evidence');
+      const evidenceContainer = evidenceSection?.querySelector(':scope > .space-y-10');
+      const filterOptions = ['all', 'completed', 'verified', 'in-progress', 'planned'];
+      let activeFilter = 'all';
+
+      if (evidenceSection && evidenceContainer) {
+        const filterControls = document.createElement('div');
+        filterControls.className = 'filter-controls';
+        filterControls.setAttribute('role', 'group');
+        filterControls.setAttribute('aria-label', 'Filter evidence by status');
+
+        filterOptions.forEach((status) => {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'filter-button';
+          button.dataset.filter = status;
+          button.setAttribute('aria-pressed', String(status === 'all'));
+          button.textContent = status === 'all' ? 'Show All' : status.replace('-', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
+          filterControls.appendChild(button);
+        });
+        evidenceContainer.parentNode.insertBefore(filterControls, evidenceContainer);
+
+        const evidenceGroups = [...evidenceContainer.children];
+        evidenceGroups.forEach((group, groupIndex) => {
+          group.classList.add('evidence-group');
+          const title = group.querySelector(':scope > p');
+          const panel = group.querySelector(':scope > div');
+          if (!title || !panel) return;
+
+          const panelId = `evidence-panel-${groupIndex + 1}`;
+          const toggle = document.createElement('button');
+          toggle.type = 'button';
+          toggle.className = 'evidence-toggle';
+          toggle.setAttribute('aria-controls', panelId);
+          toggle.setAttribute('aria-expanded', 'true');
+          toggle.innerHTML = `<span>${title.textContent}</span><span class="toggle-icon" aria-hidden="true">+</span>`;
+          title.replaceWith(toggle);
+          panel.id = panelId;
+          panel.classList.add('evidence-panel');
+
+          [...panel.children].forEach((card) => {
+            const statusLabel = card.querySelector('span');
+            const status = statusLabel?.textContent.trim().toLowerCase().replace(/\s+/g, '-') || '';
+            card.classList.add('evidence-card');
+            card.dataset.status = status;
+          });
+
+          const emptyMessage = document.createElement('p');
+          emptyMessage.className = 'evidence-empty';
+          emptyMessage.textContent = 'No items in this category match the selected status.';
+          group.appendChild(emptyMessage);
+
+          toggle.addEventListener('click', () => {
+            const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+            toggle.setAttribute('aria-expanded', String(!isOpen));
+            panel.hidden = isOpen;
+          });
+        });
+
+        if (window.matchMedia('(max-width: 640px)').matches) {
+          evidenceGroups.forEach((group) => {
+            const toggle = group.querySelector('.evidence-toggle');
+            const panel = group.querySelector('.evidence-panel');
+            if (toggle && panel) {
+              toggle.setAttribute('aria-expanded', 'false');
+              panel.hidden = true;
+            }
+          });
+        }
+
+        const applyEvidenceFilter = () => {
+          evidenceGroups.forEach((group) => {
+            const cards = [...group.querySelectorAll('.evidence-card')];
+            cards.forEach((card) => {
+              card.classList.toggle('is-filtered-out', activeFilter !== 'all' && card.dataset.status !== activeFilter);
+            });
+            group.classList.toggle('is-empty', !cards.some((card) => !card.classList.contains('is-filtered-out')));
+          });
+        };
+
+        filterControls.addEventListener('click', (event) => {
+          const button = event.target.closest('.filter-button');
+          if (!button) return;
+          activeFilter = button.dataset.filter;
+          filterControls.querySelectorAll('.filter-button').forEach((filterButton) => {
+            filterButton.setAttribute('aria-pressed', String(filterButton === button));
+          });
+          applyEvidenceFilter();
+        });
+      }
+
+      const demoPath = document.querySelector('#demo-path > .max-w-2xl.space-y-3');
+      if (demoPath) {
+        demoPath.classList.add('demo-path');
+        [...demoPath.children].forEach((step, index) => {
+          const number = step.querySelector(':scope > span')?.textContent.trim();
+          const content = step.querySelector(':scope > div');
+          const title = content?.querySelector('p:first-child')?.textContent.trim();
+          const detail = content?.querySelector('p:last-child')?.textContent.trim();
+          if (!number || !title || !detail) return;
+
+          const detailId = `demo-detail-${index + 1}`;
+          step.className = 'card-dark rounded-xl demo-step';
+          step.innerHTML = `
+            <button class="demo-toggle" type="button" aria-expanded="${index === 0}" aria-controls="${detailId}">
+              <span class="demo-number">${number}</span>
+              <span class="text-white font-medium text-sm">${title}</span>
+              <span class="toggle-icon" aria-hidden="true">+</span>
+            </button>
+            <p class="demo-detail" id="${detailId}"${index === 0 ? '' : ' hidden'}>${detail}</p>
+          `;
+          if (index === 0) step.classList.add('is-active');
+
+          const toggle = step.querySelector('.demo-toggle');
+          const detailPanel = step.querySelector('.demo-detail');
+          toggle.addEventListener('click', () => {
+            const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+            toggle.setAttribute('aria-expanded', String(!isOpen));
+            detailPanel.hidden = isOpen;
+            step.classList.toggle('is-active', !isOpen);
+          });
+        });
+      }
+
+      const navLinks = [...document.querySelectorAll('.nav-link')];
+      const observedSections = navLinks.map((link) => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+          if (!visible) return;
+          navLinks.forEach((link) => {
+            if (link.getAttribute('href') === `#${visible.target.id}`) link.setAttribute('aria-current', 'location');
+            else link.removeAttribute('aria-current');
+          });
+        }, { rootMargin: '-20% 0px -65% 0px', threshold: [0, 0.1, 0.5] });
+        observedSections.forEach((section) => observer.observe(section));
+      }
+
+      const backToTop = document.getElementById('back-to-top');
+      const updateBackToTop = () => backToTop.classList.toggle('is-visible', window.scrollY > 600);
+      window.addEventListener('scroll', updateBackToTop, { passive: true });
+      updateBackToTop();
+      backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+      document.getElementById('print-page').addEventListener('click', () => window.print());
+    })();
+  </script>
+</body>
+</html>
+<script id="__base44_dark_class_post__">document.documentElement.classList.add('dark');</script></body></html>
