@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Case Study - CompTIA Quest</title>
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --card-bg: #111111;
+            --card-border: #222222;
+            --accent-gold: #c9a84c;
+            --accent-gold-hover: #e0be63;
+            --text-light: #e5e5e5;
+            --text-muted: #a3a3a3;
+            --text-white: #ffffff;
+            --tag-verified-bg: rgba(201, 168, 76, 0.1);
+            --tag-verified-border: rgba(201, 168, 76, 0.3);
+            --tag-inprogress-bg: rgba(59, 130, 246, 0.1);
+            --tag-inprogress-border: rgba(59, 130, 246, 0.3);
+            --tag-planned-bg: rgba(107, 114, 128, 0.1);
+            --tag-planned-border: rgba(107, 114, 128, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            padding: 0 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2rem 0 6rem 0;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            margin-bottom: 3rem;
+        }
+
+        .back-link {
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: var(--accent-gold-hover);
+            text-decoration: underline;
+        }
+
+        /* Header */
+        header {
+            margin-bottom: 4rem;
+        }
+
+        .header-label {
+            color: var(--accent-gold);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            display: inline-block;
+        }
+
+        h1 {
+            color: var(--text-white);
+            font-size: 2.75rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.35rem;
+            color: var(--text-light);
+            font-weight: 400;
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+        }
+
+        .header-meta {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-left: 2px solid var(--accent-gold);
+            padding-left: 0.75rem;
+        }
+
+        /* Section Layout */
+        section {
+            margin-bottom: 3.5rem;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            color: var(--text-white);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        h2::after {
+            content: "";
+            flex-grow: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--card-border), transparent);
+            margin-left: 0.5rem;
+        }
+
+        /* Cards */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .small-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .small-card h3 {
+            color: var(--text-white);
+            font-size: 1.15rem;
+            font-weight: 600;
+        }
+
+        .small-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Founder Insight styling */
+        .insight-card {
+            border-left: 3px solid var(--accent-gold);
+            background: linear-gradient(90deg, rgba(201, 168, 76, 0.03), transparent);
+        }
+
+        .insight-quote {
+            font-style: italic;
+            color: var(--text-white);
+            display: block;
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            border-left: 2px dashed rgba(201, 168, 76, 0.4);
+            padding-left: 1rem;
+        }
+
+        /* Numbered solution cards */
+        .solution-number {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+            background: rgba(201, 168, 76, 0.1);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Status Tags */
+        .status-tag {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            letter-spacing: 0.05em;
+            display: inline-block;
+            margin-bottom: 0.75rem;
+            width: fit-content;
+        }
+
+        .status-verified {
+            background-color: var(--tag-verified-bg);
+            border: 1px solid var(--tag-verified-border);
+            color: var(--accent-gold);
+        }
+
+        .status-inprogress {
+            background-color: var(--tag-inprogress-bg);
+            border: 1px solid var(--tag-inprogress-border);
+            color: #60a5fa;
+        }
+
+        .status-planned {
+            background-color: var(--tag-planned-bg);
+            border: 1px solid var(--tag-planned-border);
+            color: #9ca3af;
+        }
+
+        /* Feature list styling */
+        .feature-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .feature-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .feature-title {
+            color: var(--text-white);
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        /* Steps */
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .step-row {
+            display: flex;
+            gap: 1.25rem;
+            align-items: flex-start;
+        }
+
+        .step-badge {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--accent-gold);
+            font-weight: 700;
+            font-size: 0.95rem;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            padding-top: 0.25rem;
+        }
+
+        .step-text {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        /* Checkmarks list */
+        .checkmark-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .checkmark-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: rgba(255, 255, 255, 0.01);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+        }
+
+        .checkmark-text {
+            color: var(--text-light);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .checkmark-badge {
+            color: var(--accent-gold);
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(201, 168, 76, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            border: 1px solid rgba(201, 168, 76, 0.2);
+        }
+
+        .note-text {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-style: italic;
+            margin-top: 1.25rem;
+            display: block;
+        }
+
+        /* Next items */
+        .next-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .next-column h3 {
+            font-size: 1.15rem;
+            color: var(--text-white);
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 0.5rem;
+        }
+
+        .next-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .next-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        .bullet-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .bullet-inprogress {
+            background-color: #60a5fa;
+        }
+
+        .bullet-planned {
+            background-color: #9ca3af;
+        }
+
+        /* Workforce Section */
+        .workforce-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .workforce-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .workforce-card h3 {
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .workforce-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Program Opportunities Links */
+        .opportunities-card {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .opportunities-card p {
+            max-width: 650px;
+            font-size: 1.1rem;
+            color: var(--text-light);
+        }
+
+        .links-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            width: 100%;
+        }
+
+        .btn-link {
+            display: inline-block;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-light);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .btn-link:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            background-color: rgba(201, 168, 76, 0.02);
+        }
+
+        .btn-primary {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            background-color: rgba(201, 168, 76, 0.05);
+        }
+
+        .btn-primary:hover {
+            background-color: rgba(201, 168, 76, 0.1);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 4rem;
+            border-top: 1px solid var(--card-border);
+            padding-top: 2rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .markdown-link {
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: color 0.2s ease;
+        }
+
+        .markdown-link:hover {
+            color: var(--accent-gold-hover);
+            text-decoration: underline;
+        }
+
+        /* Responsive Tweaks */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .next-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <a href="https://the-curiosity-portfolio.netlify.app" class="back-link">← Back to Portfolio</a>
+        </div>
+
+        <!-- Header -->
+        <header>
+            <span class="header-label">Built From Curiosity Founder Asset Package v1.0</span>
+            <h1>PRODUCT CASE STUDY</h1>
+            <p class="subtitle">How CompTIA Quest Turned Certification Prep Into a Game-Based Learning Experience</p>
+            <p class="header-meta">Approved by Founder · July 2026</p>
+        </header>
+
+        <!-- Section 1 — The Problem -->
+        <section>
+            <h2>The Problem</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 1.05rem;">Why Traditional IT Certification Prep Fails Career Changers</p>
+            <div class="grid-3">
+                <div class="small-card">
+                    <h3>Rote memorization over contextual application</h3>
+                    <p>Learning definitions rather than understanding how to diagnose and resolve real-world problems.</p>
+                </div>
+                <div class="small-card">
+                    <h3>High-friction onboarding</h3>
+                    <p>Registration walls and paywalls that block access before a student can even evaluate the tool.</p>
+                </div>
+                <div class="small-card">
+                    <h3>The confidence deficit</h3>
+                    <p>Binary correct/incorrect feedback that never tells a student what they are actually capable of doing.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2 — Founder Insight -->
+        <section>
+            <h2>Founder Insight</h2>
+            <div class="card insight-card">
+                <p style="font-size: 1.1rem; line-height: 1.7; color: var(--text-light);">
+                    Tiera Rider identified a disconnect in the learning lifecycle: reading a chapter is not the same as proving you can do the work. Built From Curiosity — the company, philosophy, and operating system — was built on one core belief:
+                    <span class="insight-quote">"Capability is built through learning. Belief is built through proof."</span>
+                </p>
+                <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.95rem;">CompTIA Quest is the first product and proof of that model.</p>
+            </div>
+        </section>
+
+        <!-- Section 3 — The Solution -->
+        <section>
+            <h2>The Solution</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 1.05rem;">The Capability → Proof → Identity Framework</p>
+            <div class="grid-3">
+                <div class="small-card">
+                    <div class="solution-number">1</div>
+                    <h3>Capability</h3>
+                    <p>Every lesson targets a specific real-world capability the learner can DO.</p>
+                </div>
+                <div class="small-card">
+                    <div class="solution-number">2</div>
+                    <h3>Proof</h3>
+                    <p>Scenario-based questions simulate live technical challenges.</p>
+                </div>
+                <div class="small-card">
+                    <div class="solution-number">3</div>
+                    <h3>Identity</h3>
+                    <p>Completion screens show explicit proof (e.g. 'You can now identify RAM by slot type and generation') — not generic praise.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4 — Key Features -->
+        <section>
+            <h2>Key Features</h2>
+            <div class="grid-3">
+                <!-- Column 1: Verified -->
+                <div class="small-card">
+                    <span class="status-tag status-verified">Verified</span>
+                    <div class="feature-item">
+                        <div class="feature-title">Scenario-based lessons</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-title">Guest-first First Run lesson path</div>
+                        <p>Immediate access to Lessons 1 & 2 without account creation.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-title">XP streaks & progress tracking</div>
+                    </div>
+                </div>
+
+                <!-- Column 2: In Progress -->
+                <div class="small-card">
+                    <span class="status-tag status-inprogress">In Progress</span>
+                    <div class="feature-item">
+                        <div class="feature-title">Sign-in inside First Run</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-title">Guest-to-auth progress handoff</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-title">Campus & multiplayer systems</div>
+                    </div>
+                </div>
+
+                <!-- Column 3: Planned -->
+                <div class="small-card">
+                    <span class="status-tag status-planned">Planned</span>
+                    <div class="feature-item">
+                        <div class="feature-title">Boss Battle / Technician Challenge</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-title">Full question bank audit</div>
+                        <p>Complete assessment review and mapping to core exam objectives.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-title">Backend CMS</div>
+                        <p>Custom content management system for content updates.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5 — The Verified Demo Path -->
+        <section>
+            <h2>The Verified Demo Path</h2>
+            <div class="card">
+                <div class="steps-container">
+                    <div class="step-row">
+                        <div class="step-badge">1</div>
+                        <div class="step-content">
+                            <div class="step-text">Download from App Store, no registration required</div>
+                        </div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-badge">2</div>
+                        <div class="step-content">
+                            <div class="step-text">Select guest entry — immediate access, no account needed</div>
+                        </div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-badge">3</div>
+                        <div class="step-content">
+                            <div class="step-text">Begin Lesson 1: Laptop Components</div>
+                        </div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-badge">4</div>
+                        <div class="step-content">
+                            <div class="step-text">Complete 6 scenario-based questions</div>
+                        </div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-badge">5</div>
+                        <div class="step-content">
+                            <div class="step-text">Receive Lesson 1 capability proof — specific, earned, technical</div>
+                        </div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-badge">6</div>
+                        <div class="step-content">
+                            <div class="step-text">Transition to Lesson 2: Desktop Components</div>
+                        </div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-badge">7</div>
+                        <div class="step-content">
+                            <div class="step-text">Complete 5 scenario-based questions</div>
+                        </div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-badge">8</div>
+                        <div class="step-content">
+                            <div class="step-text">Receive Lesson 2 capability proof</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6 — Product Recovery & Stabilization -->
+        <section>
+            <h2>Product Recovery & Stabilization</h2>
+            <div class="card" style="border-color: rgba(239, 68, 68, 0.2); background: linear-gradient(180deg, var(--card-bg), rgba(239, 68, 68, 0.01));">
+                <p style="font-size: 1.05rem; line-height: 1.7; color: var(--text-light);">
+                    During development, a destabilization event threatened core authentication and app shell integrity. Rather than executing quick patches, Built From Curiosity initiated a systematic two-phase recovery. Phase 1 is complete. This was formalized into a repeatable Recovery Engineer process to guarantee product integrity going forward.
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 7 — What Has Been Proven -->
+        <section>
+            <h2>What Has Been Proven</h2>
+            <div class="card">
+                <ul class="checkmark-list">
+                    <li class="checkmark-item">
+                        <span class="checkmark-text">Live app on iOS App Store</span>
+                        <span class="checkmark-badge">✔ Verified</span>
+                    </li>
+                    <li class="checkmark-item">
+                        <span class="checkmark-text">Two fully functional scenario-based lessons</span>
+                        <span class="checkmark-badge">✔ Verified</span>
+                    </li>
+                    <li class="checkmark-item">
+                        <span class="checkmark-text">Guest-first First Run approved and functional</span>
+                        <span class="checkmark-badge">✔ Verified</span>
+                    </li>
+                    <li class="checkmark-item">
+                        <span class="checkmark-text">Capability → Proof → Identity framework live in the product</span>
+                        <span class="checkmark-badge">✔ Verified</span>
+                    </li>
+                    <li class="checkmark-item">
+                        <span class="checkmark-text">Engineering resilience demonstrated under real pressure</span>
+                        <span class="checkmark-badge">✔ Verified</span>
+                    </li>
+                </ul>
+                <span class="note-text">(No user acquisition counts, pass rates, or revenue metrics are available at this stage.)</span>
+            </div>
+        </section>
+
+        <!-- Section 8 — What Is Next -->
+        <section>
+            <h2>What Is Next</h2>
+            <div class="card">
+                <div class="next-grid">
+                    <div class="next-column">
+                        <h3>In Progress</h3>
+                        <ul class="next-list">
+                            <li class="next-item"><span class="bullet-dot bullet-inprogress"></span>Sign-in inside First Run</li>
+                            <li class="next-item"><span class="bullet-dot bullet-inprogress"></span>Guest-to-auth progress handoff</li>
+                            <li class="next-item"><span class="bullet-dot bullet-inprogress"></span>Campus and multiplayer systems</li>
+                            <li class="next-item"><span class="bullet-dot bullet-inprogress"></span>Native auth return</li>
+                        </ul>
+                    </div>
+                    <div class="next-column">
+                        <h3>Planned</h3>
+                        <ul class="next-list">
+                            <li class="next-item"><span class="bullet-dot bullet-planned"></span>Boss Battle / Technician Challenge</li>
+                            <li class="next-item"><span class="bullet-dot bullet-planned"></span>Backend content management system</li>
+                            <li class="next-item"><span class="bullet-dot bullet-planned"></span>Full question bank audit and objective mapping</li>
+                            <li class="next-item"><span class="bullet-dot bullet-planned"></span>Full A+ domain coverage</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 9 — Why This Matters for Workforce Learning -->
+        <section>
+            <h2>Why This Matters for Workforce Learning</h2>
+            <div class="workforce-grid">
+                <div class="workforce-card">
+                    <h3>Frictionless entry</h3>
+                    <p>The guest-first model removes the initial onboarding barrier that frequently hurts program enrollment.</p>
+                </div>
+                <div class="workforce-card">
+                    <h3>Identity building</h3>
+                    <p>Capability proof screens build the professional agency non-traditional learners need to believe they belong in the field.</p>
+                </div>
+                <div class="workforce-card">
+                    <h3>High-impact delivery</h3>
+                    <p>Mobile-first design meets learners where they are.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 10 — Program Opportunities -->
+        <section>
+            <h2>Program Opportunities</h2>
+            <div class="card opportunities-card">
+                <p>
+                    Pilot conversations welcome. Contact Built From Curiosity to discuss integrating CompTIA Quest into your workforce development and training pipelines.
+                </p>
+                <div class="links-group">
+                    <a href="https://apps.apple.com/us/app/comptia-quest/id6762166430" target="_blank" class="btn-link btn-primary">App Store</a>
+                    <a href="https://comptiaquest.com" target="_blank" class="btn-link">Website</a>
+                    <a href="https://the-curiosity-portfolio.netlify.app" target="_blank" class="btn-link">Founder Portfolio</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-text">Built From Curiosity · Tiera Rider · 2026</div>
+            <a href="./comptia_quest_product_case_study_v1.md" class="markdown-link">View source markdown</a>
+        </footer>
+    </div>
+</body>
+</html>
